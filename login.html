@@ -1,14 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<title>E-commerce</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bootstrap Simple Login Form</title>
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style type="text/css">
+* {
+	box-sizing: border-box;
+}
+.container.searchbar {
+	background-color: e5e5e5;
+	border: 0;
+	width: 100%;
+	margin: 0;
+}
+.form-control.searchkey {
+	width: 40em;
+}
 	.login-form {
 		width: 340px;
     	margin: 50px auto;
@@ -26,16 +39,69 @@
         min-height: 38px;
         border-radius: 2px;
     }
-    .btn {        
+    .btn {
         font-size: 15px;
         font-weight: bold;
+				background-color: ;
     }
+		.btn-primary{
+				color:#fff;
+				background-color: #999999;
+				border-color: #999999;
+		}
+		.btn-primary:hover{
+			color: #fff;
+			background-color: black;
+			border-color: black;
+		}
+		a{
+			color: black;
+		}
+		a:focus, a:hover{
+			color: black;
+			text-decoration: underline;
+		}
 </style>
 </head>
 <body>
+	<header>
+
+		<nav class="navbar navbar-inverse menubar">
+			<div class="navbar-header">
+			<div class="foto">
+				<img src="foto/logoPI.png" alt="logo" style="width: 100px; height: 50px">
+			</div>
+						<!-- <a class="navbar-brand" href="#">LIVRARIA GLOBAL</a> -->
+					</div>
+					<ul class="nav navbar-nav">
+						<li class="active"><a href="header.html">Home</a></li>
+			<li><a href="faq.html">FAQ</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right pull-right">
+						<li><a href="cadastro.html"><span class="glyphicon glyphicon-user"></span> Inscreva-se</a></li>
+						<li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+					</ul>
+
+					<div class="navbar-form navbar-left pull-right">
+						<div class="row">
+								<div class="form-group">
+									<div class="col-md-6">
+									<input type="text" class="form-control" placeholder="Search">
+								</div>
+								<div class="col-md-4">
+									<button type="button" class="btn btn-default">
+										<font style="vertical-align: inherit;"><font style="vertical-align:inherit;"><b>Buscar<b></font></font></button>
+							</div>
+							</div>
+						</div>
+					</div>
+		</nav>
+</header>
+
+<!-- LOGIN -->
 <div class="login-form">
     <form action="/examples/actions/confirmation.php" method="post">
-        <h2 class="text-center">Log in</h2>       
+        <h2 class="text-center">Log in</h2>
         <div class="form-group">
             <input type="text" class="form-control" placeholder="Username" required="required">
         </div>
@@ -48,9 +114,9 @@
         <div class="clearfix">
             <label class="pull-left checkbox-inline"><input type="checkbox"> Remember me</label>
             <a href="#" class="pull-right">Forgot Password?</a>
-        </div>        
+        </div>
     </form>
-    <p class="text-center"><a href="#">Create an Account</a></p>
+    <p class="text-center"><a href="cadastro.html">Create an Account</a></p>
 </div>
 </body>
-</html>                                		                            
+</html>
