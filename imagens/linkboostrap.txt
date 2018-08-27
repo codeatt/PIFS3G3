@@ -1,0 +1,5 @@
+https://www.w3schools.com/bootstrap/tryit.asp?filename=trybs_carousel&stacked=h
+
+https://getbootstrap.com/docs/3.3/components/#glyphicons
+
+https://www.w3schools.com/bootstrap/tryit.asp?filename=trybs_navbar_collapse&stacked=h

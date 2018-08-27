@@ -1,145 +1,59 @@
-<html>
+<!DOCTYPE html>
+<html lang="pt" dir="ltr">
+  <head>
+    <meta charset="utf-8" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+     integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <title>EXERCÍCIO BOOTSTRAP</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse menubar">
+      <div class="navbar-header   col-md-4 col-xs-12"> <!--Boostrap Responsive-->
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar"> <!--Este é o botão minimizado-->
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        <a class="navbar-brand" href="#"><img src="foto/logoPI.png" alt="logo" id="logo"></a>
+      </div>
 
-<head>
-
-	<title>E-commerce</title>
-
-	<meta charset="utf8" />
-
-	<meta charset="UTF-8">
-
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-	<link rel="stylesheet" href="css/styles.css" />
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-	<style>
-
-		* {
-
-			box-sizing: border-box;
-
-		}
-
-		.container.searchbar {
-
-			background-color: e5e5e5;
-
-			border: 0;
-
-			width: 100%;
-
-			margin: 0;
-
-		}
-
-		.form-control.searchkey {
-
-			width: 40em;
-
-		}
-
-	</style>
-
-</head>
-
-<body>
-
-	<header>
-
-		<nav class="navbar navbar-inverse menubar">
-			<div class="navbar-header">
-			<div class="foto">
-				<img src="foto/logoPI.png" alt="logo" style="width: 100px; height: 50px">
-			</div>
-            <!-- <a class="navbar-brand" href="#">LIVRARIA GLOBAL</a> -->
-          </div>
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="header.html">Home</a></li>
-			<li><a href="faq.html">FAQ</a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right pull-right">
-            <li><a href="cadastro.html"><span class="glyphicon glyphicon-user"></span> Inscreva-se</a></li>
-            <li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-          </ul>
-
-          <div class="navbar-form navbar-left pull-right">
+          <div class=" col-md-4 col-xs-12"> <!--Boostrap Responsive-->
             <div class="row">
-                <div class="form-group">
-                  <div class="col-md-6">
-                  <input type="text" class="form-control" placeholder="Search">
-                </div>
-                <div class="col-md-4">
-                  <button type="button" class="btn btn-default">
-                    <font style="vertical-align: inherit;"><font style="vertical-align:inherit;"><b>Buscar<b></font></font></button>
-              </div>
+              <div class="col-xs-12"> <!--Boostrap Responsive-->
+                <form class="form-inline"> <!--Campo de busca-->
+                  <div class="form-group">
+                    <label class="sr-only" for="exampleInputAmount">Amount</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="exampleInputAmount" placeholder="search">
+                      <div class="input-group-addon">
+                        <button type="button" class="btn btn-default">
+                          <span class="glyphicon glyphicon-search" aria-hidden="true"><!--Lupa de busca<span>-->
+                          </span>
+                          </button>
+                       </div>
+                    </div>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
-		</nav>
 
-		<!-- <nav class="navbar navbar-inverse"> -->
-
-		  <!-- <div class="container-fluid">  -->
-
-			<!-- <div class="navbar-header"> -->
-
-			  <!-- <a class="navbar-brand" href="#">E-COMMERCE</a> -->
-
-			<!-- </div> -->
-
-			<!-- <ul class="nav navbar-nav"> -->
-
-			  <!-- <li class="active"><a href="#">HOME</a></li> -->
-
-			  <!-- <li><a href="#">FAQ</a></li> -->
-
-			<!-- </ul> -->
-
-			<!-- <ul class="nav navbar-nav navbar-right"> -->
-
-			  <!-- <li><a href="#"><span class="glyphicon glyphicon-user"></span> LOGIN</a></li> -->
-
-			  <!-- <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> CADASTRE-SE</a></li> -->
-
-			<!-- </ul> -->
-
-		  <!-- </div> -->
-
-		<!-- </nav> -->
-
-		<!-- <div class="container searchbar"> -->
-
-			<!-- <form class="navbar-form navbar-left" role="search"> -->
-
-				<!-- <div class="form-group"> -->
-
-					<!-- <input type="text" class="form-control searchkey" placeholder="Pesquisar"> -->
-
-				<!-- </div> -->
-
-				<!-- <button type="submit" class="btn btn-default"> -->
-
-					<!-- <span class="glyphicon glyphicon-search"></span> -->
-
-				<!-- </button> -->
-
-			<!-- </form> -->
-
-		<!-- </div> -->
-
-	</header>
-
+          <div class="collapse navbar-collapse  col-md-4 col-xs-12 text-right" id="myNavbar"> <!--Boostrap Responsive-->
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="header.html" id="">Home</a></li>
+                <li><a href="faq.html" style="text-align: center;">FAQ</a></li>
+                <li><a href="cadastro.html"><span class="glyphicon glyphicon-user"></span> Inscreva-se</a></li>
+                <li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+              </ul>
+            </div>
+    </nav>
 	<section>
 
-		<div class="container-fluid">
+		<div class="container">
 <h1>CADASTRE-SE</h1>
 			<form action="">
 
