@@ -1,13 +1,48 @@
 * {
     box-sizing: border-box;
+    /* font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; */
+    font-family: arial,sans-serif;
+}
+
+ul, li, a {
+    text-align: center;
 }
 
 .menubar {
-    /* background-color:rgba(255,0,0,0.7); */
+   /* background-color:rgba(255,0,0,0.7); */
 }
 
 .well {
     background-color: white;
+}
+
+.navbar{
+    margin: 0px;
+    border-radius: 0px !important; /*tem que arrumar isso!!!*/
+}
+
+.navbar-brand {
+    padding: 0px;
+}
+
+.navbar-toggle {
+    margin-right: 0px;
+}
+
+.carousel-inner {
+    /* height: 450px; */
+    /* background-position: center; */
+}
+
+.form-inline {
+    margin-top: 5px;
+}
+
+.input-group-addon { /*Botão de pesquisa*/
+    background-color: inherit;
+    padding: 0px;
+    border-radius: 0px;
+    border: 0px;
 }
 
 #logo {
@@ -18,6 +53,7 @@
 #buscar {
     vertical-align: inherit;
 }
+
 #carousel{
   width: 100%;
   height: 500px;
@@ -28,37 +64,10 @@
     max-width: 100%;
 }
 
-ul, li, a {
-    text-align: center;
+#faqtitle1{
+  margin-top: 35px;
 }
 
-.carousel-inner {
-    /* height: 450px; */
-    /* background-position: center; */
-}
-
-.navbar-brand {
-    padding: 0px;
-}
-
-.navbar {
-    margin: 0px;
-}
-
-.form-inline {
-    margin-top: 5px;
-}
-
-.navbar-toggle {
-    margin-right: 0px;
-}
-
-.input-group-addon { /*Botão de pesquisa*/
-    background-color: inherit;
-    padding: 0px;
-    border-radius: 0px;
-    border: 0px;
-}
 /*/////////////////// Abaixo segue configurações de login/////////////////////// */
 .form-control.searchkey {
     width: 40em;

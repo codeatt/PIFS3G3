@@ -4,6 +4,9 @@ body {
   padding: 10px;
   font-family: 'Varela Round';
 }
+nav{
+  border-radius: 0px;
+}
 /*=== 2. Anchor Link ===*/
 a {
   color: #aaaaaa;
