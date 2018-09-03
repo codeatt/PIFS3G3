@@ -31,10 +31,10 @@
 
       <div class="collapse navbar-collapse  col-md-4 col-xs-12 text-right" id="myNavbar"> <!--Boostrap Responsive1.3-->
           <ul class="nav navbar-nav">
-            <li class="active"><a href="header.html" id="">Início</a></li>
-            <li><a href="faq.html" style="text-align: center;">FAQ</a></li>
-            <li><a href="cadastro.html"><span class="glyphicon glyphicon-user"></span> Inscreva-se</a></li>
-            <li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <li class="active"><a href="index.php">Início</a></li>
+            <li><a href="faq.php">FAQ</a></li>
+            <li><a href="cadastro.php"><span class="glyphicon glyphicon-user"></span> Inscreva-se</a></li>
+            <li><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
           </ul>
         </div>
 </nav>

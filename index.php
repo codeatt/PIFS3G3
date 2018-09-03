@@ -6,50 +6,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Itim" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/styles.css">
     <title>EXERCÍCIO BOOTSTRAP</title>
   </head>
   <body>
-    <nav class="navbar navbar-inverse menubar">
-      <div class="navbar-header   col-md-4 col-xs-12"> <!--Boostrap Responsive1-->
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar"> <!--Este é o botão minimizado-->
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        <a class="navbar-brand" href="#"><img src="foto/logoPI.png" alt="logo" id="logo"></a>
-      </div>
 
-          <div class=" col-md-4 col-xs-12"> <!--Boostrap Responsive1.2-->
-            <div class="row">
-              <div class="col-xs-12"> <!--Boostrap Responsive xs mobile-->
-                <form class="form-inline"> <!--Campo de busca-->
-                  <div class="form-group">
-                    <label class="sr-only" for="exampleInputAmount">Amount</label>
-                    <div class="input-group">
-                      <input type="text" class="form-control" id="exampleInputAmount" placeholder="Buscar">
-                      <div class="input-group-addon">
-                        <button type="button" class="btn btn-default">
-                          <span class="glyphicon glyphicon-search" aria-hidden="true"><!--Lupa de busca<span>-->
-                          </span>
-                          </button>
-                       </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
+    <?php include "header.php"; ?>
 
-          <div class="collapse navbar-collapse  col-md-4 col-xs-12 text-right" id="myNavbar"> <!--Boostrap Responsive1.3-->
-              <ul class="nav navbar-nav">
-                <li class="active"><a href="header.html" id="">Início</a></li>
-                <li><a href="faq.html" style="text-align: center;">FAQ</a></li>
-                <li><a href="cadastro.html"><span class="glyphicon glyphicon-user"></span> Inscreva-se</a></li>
-                <li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-              </ul>
-            </div>
-    </nav>
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
   <!-- Indicators -->
   <ol class="carousel-indicators">
@@ -62,25 +26,25 @@
   <div class="carousel-inner">
     <div class="item active">
       <img src="imagens/f1.jpg" alt="Produto A" id="carousel">
-      <div class="carousel-caption">
-        <h3>Produto A</h3>
-        <p>Destaque A</p>
+      <div class="carousel-caption" id="carouselcolor">
+        <h3>Livraria Global</h3>
+        <p>---</p>
       </div>
     </div>
 
     <div class="item">
       <img src="imagens/f2.jpg" alt="Produto B" id="carousel">
-      <div class="carousel-caption">
-        <h3>Produto B</h3>
-        <p>Destaque B</p>
+      <div class="carousel-caption" id="carouselcolor">
+        <h3>Libraria Global</h3>
+        <p>---</p>
       </div>
     </div>
 
     <div class="item">
       <img src="imagens/f3.jpg" alt="Produto C" id="carousel">
-      <div class="carousel-caption">
-        <h3>Produto C</h3>
-        <p>Destaque C</p>
+      <div class="carousel-caption" id="carouselcolor">
+        <h3>Promoção da madrugada</h3>
+        <p>---</p>
       </div>
     </div>
   </div>

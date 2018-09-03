@@ -59,6 +59,12 @@ ul, li, a {
   height: 500px;
 }
 
+#carouselcolor{
+  color: gold;
+  /* font-family: 'Itim', cursive; */
+  /* -webkit-text-stroke-width: 1px; /* largura da borda */
+    /* -webkit-text-stroke-color: white; /* cor da borda */
+}
 #faq {
     width: 680px;
     max-width: 100%;
@@ -67,6 +73,13 @@ ul, li, a {
 #faqtitle1{
   margin-top: 35px;
 }
+
+#enviar{
+  position: relative;
+   width: 50%;
+  margin: 0 auto;
+}
+
 
 /*/////////////////// Abaixo segue configurações de login/////////////////////// */
 .form-control.searchkey {
