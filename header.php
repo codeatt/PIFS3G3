@@ -1,14 +1,15 @@
-<nav class="navbar navbar-inverse menubar">
-  <div class="navbar-header   col-md-4 col-xs-12"> <!--Boostrap Responsive1-->
+<nav class="navbar navbar-inverse menubar" >
+  <div id="navfixed">
+  <div class="navbar-header   col-md-4 col-xs-12"> <!--Boostrap Responsive 1-->
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar"> <!--Este é o botão minimizado-->
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-    <a class="navbar-brand" href="#"><img src="foto/logoPI.png" alt="logo" id="logo"></a>
+    <a class="navbar-brand" href="#"><img src="foto/logo.png" alt="logo" id="logo"></a>
   </div>
 
-      <div class=" col-md-4 col-xs-12"> <!--Boostrap Responsive1.2-->
+      <div class=" col-md-4 col-xs-12"> <!--Boostrap Responsive 1.2-->
         <div class="row">
           <div class="col-xs-12"> <!--Boostrap Responsive xs mobile-->
             <form class="form-inline"> <!--Campo de busca-->
@@ -37,4 +38,5 @@
             <li><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
           </ul>
         </div>
+      </div>
 </nav>

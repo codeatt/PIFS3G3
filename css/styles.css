@@ -9,6 +9,7 @@ ul, li, a {
 }
 
 .menubar {
+   /* position: fixed;*/
    /* background-color:rgba(255,0,0,0.7); */
 }
 
@@ -44,12 +45,12 @@ ul, li, a {
     border-radius: 0px;
     border: 0px;
 }
-
-#logo {
-    width: 100px;
-    height: 51px;
+#navfixed{
+  /* position: fixed; */
 }
-
+#logo{
+  height: 100%;
+}
 #buscar {
     vertical-align: inherit;
 }
