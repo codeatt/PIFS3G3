@@ -17,8 +17,9 @@ function possuiCaracterEspecialValido($valor) {
 }
 //Verifica se possui apenas caracteres alfanumericos
 function possuiSomenteCaracterAlfanumerico($valor) {
-    return ctype_alnum(str_replace(array('-', '_'), '', $valor);
+    return ctype_alnum(str_replace(array('-', '_'), '', $valor));
 }
+
 //Validar data no formato dd/MM/yyyy
 function validarData($valor) {
   $temp = explode('/', $valor);
@@ -47,30 +48,30 @@ function validarCPF($cpf) {
 	// Elimina possivel mascara
 	$cpf = preg_replace("/[^0-9]/", "", $cpf);
 	$cpf = str_pad($cpf, 11, '0', STR_PAD_LEFT);
-	
-	// Verifica se o numero de digitos informados é igual a 11 
+
+	// Verifica se o numero de digitos informados é igual a 11
 	if (strlen($cpf) != 11) {
 		return false;
 	}
-	// Verifica se nenhuma das sequências invalidas abaixo 
+	// Verifica se nenhuma das sequências invalidas abaixo
 	// foi digitada. Caso afirmativo, retorna falso
-	else if ($cpf == '00000000000' || 
-		$cpf == '11111111111' || 
-		$cpf == '22222222222' || 
-		$cpf == '33333333333' || 
-		$cpf == '44444444444' || 
-		$cpf == '55555555555' || 
-		$cpf == '66666666666' || 
-		$cpf == '77777777777' || 
-		$cpf == '88888888888' || 
+	else if ($cpf == '00000000000' ||
+		$cpf == '11111111111' ||
+		$cpf == '22222222222' ||
+		$cpf == '33333333333' ||
+		$cpf == '44444444444' ||
+		$cpf == '55555555555' ||
+		$cpf == '66666666666' ||
+		$cpf == '77777777777' ||
+		$cpf == '88888888888' ||
 		$cpf == '99999999999') {
 		return false;
 	 // Calcula os digitos verificadores para verificar se o
 	 // CPF é válido
-	 } else {   
-		
+	 } else {
+
 		for ($t = 9; $t < 11; $t++) {
-			
+
 			for ($d = 0, $c = 0; $c < $t; $c++) {
 				$d += $cpf{$c} * (($t + 1) - $c);
 			}
@@ -83,9 +84,10 @@ function validarCPF($cpf) {
 		return true;
 	}
 }
+
 //Validar extensão de arquivo
 function validarArquivo($nomeArquivo,$ext) {
-  $extensao = strtolower(end(explode('.', $nomeArquivo)));	
+  $extensao = strtolower(end(explode('.', $nomeArquivo)));
   return (array_search($extensao, $extensoes_aceitas) !== false);
 }
 

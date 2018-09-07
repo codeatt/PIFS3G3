@@ -1,4 +1,5 @@
 ﻿<?php
+ini_set('display_errors', 1);
 include "comum/funcoes.php";
 
 	if($_POST) {
@@ -18,21 +19,21 @@ include "comum/funcoes.php";
 	  $cidade = isset($_POST["cidade"]) ? $_POST["cidade"] : "";
 	  $uf = isset($_POST["uf"]) ? $_POST["uf"] : "";
 	  $autorizacaoContato = isset($_POST["autorizacaoContato"]) ? $_POST["autorizacaoContato"] : "";
-	  
+
 	  if (empty($nome)) {
 		$erroNome = "Nome não informado";
 	  }
 	  else if(strpos($nome, ' ') === false || strlen($nome) < 15) {
 		$erroNome = "Nome inválido";
 	  }
-	  
+
 	  if(empty($email)) {
 		$erroEmail = "E-mail não informado";
 	  }
 	  else if (validarEmail($email)) {
 		$erroNome = "E-mail inválido";
 	  }
-	  
+
 	  if (strlen($senha) <= '8') {
 		$erroSenha = "Deve ter no mínimo 8 caracteres";
 	  }
@@ -48,51 +49,52 @@ include "comum/funcoes.php";
 	  elseif(!possuiCaracterEspecialValido($senha)) {
 		$erroSenha = "Deve ter pelo menos um caracter especial";
 	  }
-	
+
 	  if ($confirmacao !== $senha) {
 		$erroConfirmacao = "As senhas informadas devem ser iguais";
 	  }
-	  
+
 	  if(empty($cpf)) {
 		$erroCpf = "CPF não informado";
 	  }
 	  else if(validarCPF($cpf)) {
 		$erroCpf = "CPF inválido";
 	  }
-	  
+
 	  if(empty($dataNascimento)) {
 		$erroDataNascimento = "Data não informada";
 	  }
 	  else if(!validarData($dataNascimento)) {
 		$erroDataNascimento = "Data inválida";
 	  }
-	  
+
 	  if(!empty($celular)) {
 		  if(!validarTelefone($celular)) {
 			  $erroCelular = "Celular inválido";
 		  }
 	  }
-	  
+
 	  if(!empty($cep)) {
 		  if(!validarCEP($cep)) {
 			  $erroCep = "CEP inválido";
 		  }
 	  }
 	}
-	
+
 	if($_FILES) {
-		if($_FILES["foto"]["error"] == UPLOAD_ERR_OK) {
+	 	if($_FILES["foto"]["error"] == UPLOAD_ERR_OK) {
 			$nomeArquivo = $_FILES["foto"]["name"];
 			$arquivoTemporario = $_FILES["foto"]["tmp_name"];
 			$caminho = "fotos/$nomeArquivo";
-			
+
 			if(!validarArquivo($nomeArquivo,array['png','jpg'])) {
-				$erroArquivo = "Somente arquivos do tipo PNG ou JPG";
+				// $erroArquivo = "Somente arquivos do tipo PNG ou JPG";
 			}
-			
-			$status = move_uploaded_file($arquivoTemporario, $caminho);
-		}
+	//
+	// 		$status = move_uploaded_file($arquivoTemporario, $caminho);
+	 	}
 	}
+
 ?>
 <!DOCTYPE html>
 <html lang="pt" dir="ltr">
