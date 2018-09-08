@@ -47,7 +47,7 @@ include "comum/funcoes.php";
 			$erroSenha = "Deve ter pelo menos uma letra minuscula";
 	  }
 	  elseif(!possuiCaracterEspecialValido($senha)) {
-			$erroSenha = "Deve ter pelo menos um caracter especial";
+			$erroSenha = "Deve ter pelo menos um caracter especial: !@#$%&*-+.?";
 	  }
 
 	  if ($confirmacao !== $senha) {
@@ -112,6 +112,14 @@ include "comum/funcoes.php";
         overflow: hidden;
       }
 
+			input[type="text"] {
+			    text-transform: uppercase;
+			}
+
+			input[type="email"] {
+					text-transform: uppercase;
+			}
+
       .cadastro-main {
         height: 90%;
         width: 100%;
@@ -141,33 +149,33 @@ include "comum/funcoes.php";
         <div class="row">
           <div class="col-md-12 form-group">
             <label class="form-label-required" for="nome">Nome Completo:</label>
-            <input type="text" class="form-control" name="nome" id="nome" placeholder="Digite seu nome completo aqui" value="<?php echo(isset($nome) ? $nome : '') ?>" required />
+            <input type="text" class="form-control" name="nome" id="nome" maxlength="50" placeholder="Digite seu nome completo aqui" value="<?php echo(isset($nome) ? $nome : '') ?>" required />
 						<span class="error"><?php echo isset($erroNome) ? $erroNome : "";?></span>
           </div>
         </div>
         <div class="row">
           <div class="col-md-12 form-group">
             <label class="form-label-required" for="email">Email:</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Ex.: email@dominio.com" value="<?php echo(isset($email) ? $email : '') ?>" required />
+            <input type="email" class="form-control" id="email" name="email" maxlength="30" placeholder="Ex.: email@dominio.com" value="<?php echo(isset($email) ? $email : '') ?>" required />
 						<span class="error"><?php echo isset($erroEmail) ? $erroEmail : "";?></span>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6 form-group">
             <label class="form-label-required" for="senha">Senha:</label>
-            <input type="password" class="form-control" id="senha" name="senha" placeholder="Digite sua senha aqui" required />
+            <input type="password" class="form-control" id="senha" name="senha" maxlength="20" placeholder="Digite sua senha aqui" value="<?php echo(isset($senha) ? $senha : '') ?>"  required />
 						<span class="error"><?php echo isset($erroSenha) ? $erroSenha : "";?></span>
           </div>
           <div class="col-md-6 form-group">
             <label class="form-label-required" for="confirmacao">Confirmar Senha:</label>
-            <input type="password" class="form-control" id="confirmacao" name="confirmacao" placeholder="Repita sua senha aqui" required />
+            <input type="password" class="form-control" id="confirmacao" name="confirmacao" maxlength="20" placeholder="Repita sua senha aqui" value="<?php echo(isset($confirmacao) ? $confirmacao : '') ?>"  required />
 						<span class="error"><?php echo isset($erroConfirmacao) ? $erroConfirmacao : "";?></span>
           </div>
         </div>
         <div class="row">
   		  <div class="col-md-4 form-group">
             <label class="form-label-required" for="cpf">CPF:</label>
-            <input type="text" class="form-control" name="cpf" id="cpf" value="<?php echo(isset($cpf) ? $cpf : '') ?>" required />
+            <input type="text" class="form-control" name="cpf" id="cpf" maxlength="11" value="<?php echo(isset($cpf) ? $cpf : '') ?>" required />
 						<span class="error"><?php echo isset($erroCpf) ? $erroCpf : "";?></span>
           </div>
           <div class="col-md-4 form-group">
@@ -185,39 +193,39 @@ include "comum/funcoes.php";
         <div class="row">
 		  <div class="col-md-4 form-group">
             <label class="form-label" for="celular">Celular:</label>
-            <input type="text" class="form-control" name="celular" id="celular" value="<?php echo(isset($celular) ? $celular : '') ?>" />
+            <input type="text" class="form-control" name="celular" id="celular" maxlength="20" value="<?php echo(isset($celular) ? $celular : '') ?>" />
 						<span class="error"><?php echo isset($erroCelular) ? $erroCelular : ""; ?></span>
           </div>
         </div>
         <div class="row">
   		  <div class="col-md-4 form-group">
             <label class="form-label" for="cep">CEP:</label>
-            <input type="text" class="form-control" name="cep" id="cep" value="<?php echo(isset($cep) ? $cep : '') ?>" />
+            <input type="text" class="form-control" name="cep" id="cep" maxlength="9" value="<?php echo(isset($cep) ? $cep : '') ?>" />
 						<span class="error"><?php echo isset($erroCep) ? $erroCep : "";?></span>
           </div>
           <div class="col-md-8 form-group">
             <label class="form-label" for="endereco">Endereço:</label>
-            <input type="text" class="form-control" name="endereco" id="endereco" value="<?php echo(isset($endereco) ? $endereco : '') ?>" />
+            <input type="text" class="form-control" name="endereco" id="endereco" maxlength="50" value="<?php echo(isset($endereco) ? $endereco : '') ?>" />
           </div>
         </div>
         <div class="row">
   				<div class="col-md-2 form-group">
             <label class="form-label" for="numero">Número:</label>
-            <input type="text" class="form-control" name="numero" id="numero" value="<?php echo(isset($numero) ? $numero : '') ?>" />
+            <input type="text" class="form-control" name="numero" id="numero" maxlength="10" value="<?php echo(isset($numero) ? $numero : '') ?>" />
           </div>
           <div class="col-md-5 form-group">
             <label class="form-label" for="complemento">Complemento:</label>
-            <input type="text" class="form-control" name="complemento" id="complemento" value="<?php echo(isset($complemento) ? $complemento : '') ?>" />
+            <input type="text" class="form-control" name="complemento" maxlength="50" id="complemento" value="<?php echo(isset($complemento) ? $complemento : '') ?>" />
           </div>
           <div class="col-md-5 form-group">
             <label class="form-label" for="bairro">Bairro:</label>
-            <input type="text" class="form-control" name="bairro" id="bairro" value="<?php echo(isset($bairro) ? $bairro : '') ?>" />
+            <input type="text" class="form-control" name="bairro" id="bairro" maxlength="50" value="<?php echo(isset($bairro) ? $bairro : '') ?>" />
           </div>
         </div>
         <div class="row">
 		  	<div class="col-md-8 form-group">
             <label class="form-label" for="cidade">Cidade:</label>
-            <input type="text" class="form-control" name="cidade" id="cidade" value="<?php echo(isset($cidade) ? $cidade : '') ?>" />
+            <input type="text" class="form-control" name="cidade" id="cidade" maxlength="50" value="<?php echo(isset($cidade) ? $cidade : '') ?>" />
           </div>
           <div class="col-md-4 form-group">
 						<?php $uf = isset($uf) ? $uf : 'X'; ?>

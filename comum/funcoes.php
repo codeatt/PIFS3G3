@@ -13,7 +13,7 @@ function possuiNumeros($valor) {
 }
 //Verificar caracteres especiais aceitos para composição de senha
 function possuiCaracterEspecialValido($valor) {
-    return preg_match('/[!@#$%&/*-+.?:|]/', $valor);
+    return preg_match('/[!@#$%&*-+.?]/', $valor);
 }
 //Verifica se possui apenas caracteres alfanumericos
 function possuiSomenteCaracterAlfanumerico($valor) {
@@ -22,8 +22,15 @@ function possuiSomenteCaracterAlfanumerico($valor) {
 
 //Validar data no formato dd/MM/yyyy
 function validarData($valor) {
-  $temp = explode('/', $valor);
-  return checkdate($temp[1], $temp[0], $temp[2]);
+  if(preg_match('/^[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}$/', $valor))
+  {
+      $temp = explode('/', $valor);
+      return checkdate($temp[1], $temp[0], $temp[2]);
+  }
+  else
+  {
+      return false;
+  }
 }
 //Validar email
 function validarEmail($valor) {
