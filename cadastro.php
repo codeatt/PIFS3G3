@@ -5,8 +5,8 @@ include "comum/funcoes.php";
 	if($_POST) {
 	  $nome = isset($_POST["nome"]) ? $_POST["nome"] : "";
 	  $email = isset($_POST["email"]) ? $_POST["email"] : "";
-	  $senha = isset($_POST["senha"]) ? password_hash($_POST["senha"],PASSWORD_DEFAULT) : "";
-	  $confirmacao = isset($_POST["confirmacao"]) ? password_hash($_POST["confirmacao"],PASSWORD_DEFAULT) : "";
+	  $senha = isset($_POST["senha"]) ? $_POST["senha"] : "";
+	  $confirmacao = isset($_POST["confirmacao"]) ? $_POST["confirmacao"] : "";
 	  $cpf = isset($_POST["cpf"]) ? $_POST["cpf"] : "";
 	  $dataNascimento = isset($_POST["dataNascimento"]) ? $_POST["dataNascimento"] : "";
 	  $sexo = isset($_POST["sexo"]) ? $_POST["sexo"] : "";
@@ -49,8 +49,7 @@ include "comum/funcoes.php";
 	  elseif(!possuiCaracterEspecialValido($senha)) {
 			$erroSenha = "Deve ter pelo menos um caracter especial: !@#$%&*-+.?";
 	  }
-
-	  if ($confirmacao !== $senha) {
+	  else if ($confirmacao !== $senha) {
 			$erroConfirmacao = "As senhas informadas devem ser iguais";
 	  }
 
@@ -79,6 +78,9 @@ include "comum/funcoes.php";
 			  $erroCep = "CEP inválido";
 		  }
 	  }
+
+		$senha = password_hash($_POST["senha"],PASSWORD_DEFAULT);
+		//gravar dados
 	}
 
 	if($_FILES) {
@@ -132,13 +134,24 @@ include "comum/funcoes.php";
         box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
       }
 
-      #enviar{
+      #cadastro-enviar{
         position: relative;
         width: 50%;
         margin: 0 auto;
       }
 
     </style>
+		<script language="javascript" type="text/javascript">
+			function exibirSenha() {
+				if(document.getElementById('mostrarSenha').checked) {
+					document.getElementById('senha').type = 'text';
+					document.getElementById('confirmacao').type = 'text';
+				} else {
+					document.getElementById('senha').type = 'password';
+					document.getElementById('confirmacao').type = 'password';
+				}
+			}
+		</script>
 </head>
 <body>
 <?php include "header.php"; ?>
@@ -164,6 +177,7 @@ include "comum/funcoes.php";
           <div class="col-md-6 form-group">
             <label class="form-label-required" for="senha">Senha:</label>
             <input type="password" class="form-control" id="senha" name="senha" maxlength="20" placeholder="Digite sua senha aqui" value="<?php echo(isset($senha) ? $senha : '') ?>"  required />
+						<label><input type="checkbox" id="mostrarSenha" name="mostrarSenha" onclick="exibirSenha();" />Exibir senha</label>
 						<span class="error"><?php echo isset($erroSenha) ? $erroSenha : "";?></span>
           </div>
           <div class="col-md-6 form-group">
@@ -277,7 +291,7 @@ include "comum/funcoes.php";
         </div>
         <div class="row">
           <div class="col-md-12">
-		        <button id="enviar" type="submit" class="btn btn-primary btn-block">Enviar</button>
+		        <button id="cadastro-enviar" type="submit" class="btn btn-primary btn-block">Enviar</button>
           </div>
         </div>
         </form>
