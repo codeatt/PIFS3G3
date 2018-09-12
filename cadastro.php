@@ -158,7 +158,7 @@ include "comum/funcoes.php";
 <section class="container-fluid cadastro-main">
     <div class="container cadastro-main-form">
     <center><h1>CADASTRE-SE</h1></center>
-    <form id="formCadastro" name="formCadastro" action="cadastro.php" method="post" enctype="multipart/form-data" autocomplete="off">
+    <form id="formCadastro" name="formCadastro" action="usuarios.php" method="post" enctype="multipart/form-data" autocomplete="off">
         <div class="row">
           <div class="col-md-12 form-group">
             <label class="form-label-required" for="nome">Nome Completo:</label>
