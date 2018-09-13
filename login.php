@@ -13,7 +13,17 @@
   <body>
 
     <?php include "header.php"; ?>
+    <?php
+    // $value = 'alguma coisa de algum lugar';
+    //
+    // setcookie("CookieTeste", $value);
+    // setcookie("CookieTeste", $value, time()+3600);  /* expira em 1 hora */
+    // setcookie("CookieTeste", $value, time()+3600, "/~rasmus/", ".example.com", 1);
 
+
+
+
+     ?>
 <!-- LOGIN -->
 <div class="login-form">
     <form action="/examples/actions/confirmation.php" method="post">

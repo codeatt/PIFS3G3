@@ -16,9 +16,9 @@
               <div class="form-group">
                 <label class="sr-only" for="exampleInputAmount">Amount</label>
                 <div class="input-group">
-                  <input type="text" class="form-control" id="exampleInputAmount" placeholder="Buscar">
+                  <input type="text" class="form-control" name="pesquisa" id="exampleInputAmount" maxlength="50" placeholder="Buscar" required >
                   <div class="input-group-addon">
-                    <button type="button" class="btn btn-default">
+                    <button id="cadastro-enviar" type="submit" class="btn btn-default">
                       <span class="glyphicon glyphicon-search" aria-hidden="true"><!--Lupa de busca<span>-->
                       </span>
                       </button>
