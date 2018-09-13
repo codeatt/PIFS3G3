@@ -1,5 +1,7 @@
 ﻿<?php
+error_reporting(E_ALL);
 ini_set('display_errors', 1);
+
 include "comum/funcoes.php";
 
 	if($_POST) {
@@ -19,35 +21,45 @@ include "comum/funcoes.php";
 	  $cidade = isset($_POST["cidade"]) ? $_POST["cidade"] : "";
 	  $uf = isset($_POST["uf"]) ? $_POST["uf"] : "";
 	  $autorizacaoContato = isset($_POST["autorizacaoContato"]) ? $_POST["autorizacaoContato"] : "";
+		$erros = false;
 
 	  if (empty($nome)) {
 			$erroNome = "Nome não informado";
+			$erros = true;
 	  }
-	  else if(strpos($nome, ' ') === false || strlen($nome) < 15) {
+	  else if(strpos($nome, ' ') === false || strlen($nome) < 10) {
 			$erroNome = "Nome inválido";
+			$erros = true;
 	  }
 
 	  if(empty($email)) {
 			$erroEmail = "E-mail não informado";
+			$erros = true;
 	  }
-	  else if (validarEmail($email)) {
-			$erroNome = "E-mail inválido";
+	  else if (!validarEmail($email)) {
+			$erroEmail = "E-mail inválido";
+			$erros = true;
 	  }
 
-	  if (strlen($senha) <= '8') {
+	  if (strlen($senha) < '8') {
 			$erroSenha = "Deve ter no mínimo 8 caracteres";
+			$erros = true;
 	  }
 	  elseif(!possuiNumeros($senha)) {
 			$erroSenha = "Deve ter pelo menos um número";
+			$erros  = true;
 	  }
 	  elseif(!possuiLetrasMaiusculas($senha)) {
 			$erroSenha = "Deve ter pelo menos uma letra maiuscula";
+			$erros = true;
 	  }
 	  elseif(!possuiLetrasMinusculas($senha)) {
 			$erroSenha = "Deve ter pelo menos uma letra minuscula";
+			$erros = true;
 	  }
 	  elseif(!possuiCaracterEspecialValido($senha)) {
 			$erroSenha = "Deve ter pelo menos um caracter especial: !@#$%&*-+.?";
+			$erros = true;
 	  }
 	  else if ($confirmacao !== $senha) {
 			$erroConfirmacao = "As senhas informadas devem ser iguais";
@@ -55,46 +67,111 @@ include "comum/funcoes.php";
 
 	  if(empty($cpf)) {
 			$erroCpf = "CPF não informado";
+			$erros = true;
 	  }
-	  else if(validarCPF($cpf)) {
-			$erroCpf = "CPF inválido";
-	  }
-
+	  // else if(validarCPF($cpf)) {
+		// 	$erroCpf = "CPF inválido";
+		// 	$erros = true;
+	  // }
+var_dump($dataNascimento);
 	  if(empty($dataNascimento)) {
 			$erroDataNascimento = "Data não informada";
+			$erros = true;
 	  }
 	  else if(!validarData($dataNascimento)) {
 			$erroDataNascimento = "Data inválida";
+			$erros = true;
 	  }
 
 	  if(!empty($celular)) {
 		  if(!validarTelefone($celular)) {
 			  $erroCelular = "Celular inválido";
+				$erros = true;
 		  }
 	  }
 
 	  if(!empty($cep)) {
 		  if(!validarCEP($cep)) {
 			  $erroCep = "CEP inválido";
+				$erros = true;
 		  }
 	  }
 
-		$senha = password_hash($_POST["senha"],PASSWORD_DEFAULT);
+		$hashSenha = password_hash($_POST["senha"],PASSWORD_DEFAULT);
+
+		$caminhoFoto = "";
+		if($_FILES) {
+		 	if($_FILES["foto"]["error"] == UPLOAD_ERR_OK) {
+				$nomeArquivo = $_FILES["foto"]["name"];
+				$arquivoTemporario = $_FILES["foto"]["tmp_name"];
+				$caminhoFoto = "foto/$nomeArquivo";
+
+				if(!validarArquivo($nomeArquivo,array('png','jpg'))) {
+					 $erroArquivo = "Somente arquivos do tipo PNG ou JPG";
+					 $erros = true;
+				}
+		 	}
+		}
+
 		//gravar dados
-	}
-
-	if($_FILES) {
-	 	if($_FILES["foto"]["error"] == UPLOAD_ERR_OK) {
-			$nomeArquivo = $_FILES["foto"]["name"];
-			$arquivoTemporario = $_FILES["foto"]["tmp_name"];
-			$caminho = "fotos/$nomeArquivo";
-
-			if(!validarArquivo($nomeArquivo,array('png','jpg'))) {
-				 $erroArquivo = "Somente arquivos do tipo PNG ou JPG";
+		$notificacao = "";
+		var_dump($erros);
+		if(!$erros) {
+			$arquivo = "dados/usuarios.json";
+			if(file_exists($arquivo))
+			{
+				$content = file_get_contents($arquivo);
+				$dados = json_decode($content, true);
+			}
+			else
+			{
+				$dados = array('usuarios' => array());
 			}
 
-	 		$status = move_uploaded_file($arquivoTemporario, $caminho);
-	 	}
+			$dados['usuarios'][] = array(
+				'nome' => $nome,
+				'email' => $email,
+				'senha' => $hashSenha,
+				'cpf' => $cpf,
+				'dataNascimento' => $dataNascimento,
+				'sexo' => $sexo,
+				'celular' => $celular,
+				'cep' => $cep,
+				'endereco' => $endereco,
+				'numero' => $numero,
+				'complemento' => $complemento,
+				'bairro' => $bairro,
+				'cidade' => $cidade,
+				'uf' => $uf,
+				'autorizacaoContato' => $autorizacaoContato,
+				'foto' => $caminhoFoto
+			);
+
+			try {
+				$filename = 'dados/usuarios.json';
+				$json = json_encode($dados);
+				$handle = fopen($filename,'a+');
+				fwrite($handle,$json);
+				fclose($handle);
+				$notificacao = "Dados gravados com sucesso.";
+			} catch (Exception $e) {
+				$notificacao = "Não foi possivel gravar os dados: " . $e->getMessage();
+				$erros = true;
+			}
+
+			if($caminhoFoto) {
+				try {
+					$status = move_uploaded_file($arquivoTemporario, $caminhoFoto);
+					$notificacao .= " Upload de foto enviado";
+					var_dump($notificacao);
+				} catch (Exception $e) {
+					$erroArquivo = "Não foi possivel gravar a foto: " . $e->getMessage();
+					$erros = true;
+				}
+			}
+
+		}
+
 	}
 
 ?>
@@ -113,14 +190,6 @@ include "comum/funcoes.php";
       body {
         overflow: hidden;
       }
-
-			input[type="text"] {
-			    text-transform: uppercase;
-			}
-
-			input[type="email"] {
-					text-transform: uppercase;
-			}
 
       .cadastro-main {
         height: 90%;
@@ -158,7 +227,7 @@ include "comum/funcoes.php";
 <section class="container-fluid cadastro-main">
     <div class="container cadastro-main-form">
     <center><h1>CADASTRE-SE</h1></center>
-    <form id="formCadastro" name="formCadastro" action="usuarios.php" method="post" enctype="multipart/form-data" autocomplete="off">
+    <form id="formCadastro" name="formCadastro" action="cadastro.php" method="post" enctype="multipart/form-data" autocomplete="off">
         <div class="row">
           <div class="col-md-12 form-group">
             <label class="form-label-required" for="nome">Nome Completo:</label>
@@ -292,6 +361,8 @@ include "comum/funcoes.php";
         <div class="row">
           <div class="col-md-12">
 		        <button id="cadastro-enviar" type="submit" class="btn btn-primary btn-block">Enviar</button>
+						<br/>
+						<span class="error"><?php echo isset($notificacao) ? $notificacao : "";?></span>
           </div>
         </div>
         </form>

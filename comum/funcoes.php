@@ -22,15 +22,23 @@ function possuiSomenteCaracterAlfanumerico($valor) {
 
 //Validar data no formato dd/MM/yyyy
 function validarData($valor) {
-  if(preg_match('/^[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}$/', $valor))
-  {
-      $temp = explode('/', $valor);
-      return checkdate($temp[1], $temp[0], $temp[2]);
+  // if(preg_match('/^[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}$/', $valor))
+  // {
+  if(strpos($valor,'/')) {
+    $temp = explode('/', $valor);
+    var_dump($temp);
+    return checkdate($temp[1], $temp[0], $temp[2]);
+  } else {
+    $temp = explode('-', $valor);
+    var_dump($temp);
+    return checkdate($temp[1], $temp[2], $temp[0]);
   }
-  else
-  {
-      return false;
-  }
+
+  // }
+  // else
+  // {
+  //     return false;
+  // }
 }
 //Validar email
 function validarEmail($valor) {
@@ -94,8 +102,12 @@ function validarCPF($cpf) {
 
 //Validar extensão de arquivo
 function validarArquivo($nomeArquivo,$ext) {
-  $extensao = strtolower(end(explode('.', $nomeArquivo)));
-  return (array_search($extensao, $extensoes_aceitas) !== false);
+  $tmpnome = explode('.', $nomeArquivo);
+  $extensao = strtolower(end($tmpnome));
+  var_dump($extensao);
+  echo "<br>";
+  var_dump($ext);
+  return (array_search($extensao, $ext) !== false);
 }
 
 ?>
