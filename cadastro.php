@@ -73,7 +73,7 @@ include "comum/funcoes.php";
 		// 	$erroCpf = "CPF inválido";
 		// 	$erros = true;
 	  // }
-var_dump($dataNascimento);
+
 	  if(empty($dataNascimento)) {
 			$erroDataNascimento = "Data não informada";
 			$erros = true;
@@ -115,7 +115,7 @@ var_dump($dataNascimento);
 
 		//gravar dados
 		$notificacao = "";
-		var_dump($erros);
+		
 		if(!$erros) {
 			$arquivo = "dados/usuarios.json";
 			if(file_exists($arquivo))
@@ -163,7 +163,7 @@ var_dump($dataNascimento);
 				try {
 					$status = move_uploaded_file($arquivoTemporario, $caminhoFoto);
 					$notificacao .= " Upload de foto enviado";
-					var_dump($notificacao);
+					
 				} catch (Exception $e) {
 					$erroArquivo = "Não foi possivel gravar a foto: " . $e->getMessage();
 					$erros = true;

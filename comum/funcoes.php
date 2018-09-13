@@ -26,11 +26,9 @@ function validarData($valor) {
   // {
   if(strpos($valor,'/')) {
     $temp = explode('/', $valor);
-    var_dump($temp);
     return checkdate($temp[1], $temp[0], $temp[2]);
   } else {
     $temp = explode('-', $valor);
-    var_dump($temp);
     return checkdate($temp[1], $temp[2], $temp[0]);
   }
 
@@ -104,9 +102,6 @@ function validarCPF($cpf) {
 function validarArquivo($nomeArquivo,$ext) {
   $tmpnome = explode('.', $nomeArquivo);
   $extensao = strtolower(end($tmpnome));
-  var_dump($extensao);
-  echo "<br>";
-  var_dump($ext);
   return (array_search($extensao, $ext) !== false);
 }
 
