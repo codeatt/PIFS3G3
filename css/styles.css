@@ -139,3 +139,8 @@ a:focus, a:hover {
     font-weight: bold;
     font-size: 14px;
 }
+
+.erro-form {
+  color: red;
+  font-weight: bold;
+}
