@@ -306,9 +306,9 @@ include "comum/funcoes.php";
 			}
 
 
-			function ValidarCPF(num)
+			function validarCpf(num)
 			{
-				var cpf = num.value.replace('-','').replace('.','');
+				var cpf = num.replace('-','').replace('.','');
 				if (num.length != 11 || cpf == "00000000000" || cpf == "11111111111" || cpf == "22222222222" || cpf == "33333333333" || cpf == "44444444444" || cpf == "55555555555" || cpf == "66666666666" || cpf == "77777777777" || cpf == "88888888888" || cpf == "99999999999")
 					return false;
 				add = 0;
@@ -354,6 +354,15 @@ include "comum/funcoes.php";
 						num.value = num.value + '-';
 					}
 			}
+			
+			function validarDados() {
+				if(!validarCpf(document.getElementById("cpf").value))
+				{
+					document.getElementById('av-cpf').innerText = 'CPF inválido';
+					return false;
+				}
+				return true;
+			}
 		</script>
 </head>
 <body>
@@ -368,7 +377,7 @@ include "comum/funcoes.php";
 		<?php } ?>
 
 
-    <form id="formCadastro" name="formCadastro" action="cadastro.php" method="post" enctype="multipart/form-data" autocomplete="off">
+    <form id="formCadastro" name="formCadastro" action="cadastro.php" method="post" enctype="multipart/form-data" autocomplete="off" onsubmit="return validarDados();">
         <div class="row">
           <div class="col-md-12 form-group">
             <label class="form-label-required" for="nome">Nome Completo:</label>
@@ -400,7 +409,7 @@ include "comum/funcoes.php";
   		  <div class="col-md-4 form-group">
             <label class="form-label-required" for="cpf">CPF:</label>
             <input type="text" class="form-control" name="cpf" id="cpf" maxlength="14" onkeypress="mascaraCpf(this);" value="<?php echo(isset($cpf) ? $cpf : '') ?>" required />
-						<span class="erro-form"><?php echo isset($erroCpf) ? $erroCpf : "";?></span>
+			<span id="av-cpf" class="erro-form"><?php echo isset($erroCpf) ? $erroCpf : "";?></span>
           </div>
           <div class="col-md-4 form-group">
             <label class="form-label" for="dataNascimento">Data de nascimento:</label>
