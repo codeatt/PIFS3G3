@@ -35,7 +35,7 @@
     <div class="item">
       <img src="imagens/f2.jpg" alt="Produto B" id="carousel">
       <div class="carousel-caption" id="carouselcolor">
-        <h3>Libraria Global</h3>
+        <h3>Livraria Global</h3>
         <p>---</p>
       </div>
     </div>

@@ -4,18 +4,13 @@ session_start();
 if($_POST){
   $email = $_POST["email"];
   $senha = $_POST["senha"];
-  // var_dump($senha);
   $usuariosJson = 'dados/usuarios.json';
   $usuarios = file_get_contents($usuariosJson);
-
   $usuariosArray = json_decode($usuarios, true);
-  // var_dump($usuariosArray);
-  // $teste = password_verify($_POST["senha"],$usuariosArray["senha"]);
-// var_dump($usuariosArray);
-  if (password_verify($_POST["senha"],$usuariosArray["senha"])) { //<<----otimizar, tentar tirar este if
+  $senhateste='$2y$10$Y5ZViE6vuEq.G2M6EN8NDe0e//XcP5jHTLLq65WzFERappbS4MEfi';
   foreach ($usuariosArray['usuarios'] as $key => $value) {
       if(in_array($email, $usuariosArray['usuarios'][$key])){//verifica se usuario existe
-        if ($senha === $usuariosArray['usuarios'][$key]['senha']){//verifica senha
+        if (password_verify($senha,$usuariosArray['usuarios'][$key]['senha'])){//verifica senha
           $_SESSION["email"]=$email;
           header('Location: logados.php');
         }else{
@@ -24,9 +19,7 @@ if($_POST){
       }
    }
 }
-}
 // acima VERIFICA LOGIN PHP SERGIO
-
 ?>
 <!DOCTYPE html>
 <html lang="pt" dir="ltr">
@@ -56,11 +49,11 @@ if($_POST){
         }
         ?>
         <div class="form-group">
-            <label for="">Email:</label>
+            <label for="email">Email:</label>
             <input type="text" name="email" class="form-control" placeholder="usuario@email.com" required="required">
         </div>
         <div class="form-group">
-            <label for="">Senha:</label>
+            <label for="senha">Senha:</label>
             <input type="password" name="senha" class="form-control" placeholder="***********" required="required">
         </div>
         <div class="form-group">

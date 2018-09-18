@@ -99,7 +99,6 @@ include "comum/funcoes.php";
 
 	  if(!empty($celular)) {
 		  if(!validarTelefone($celular)) {
-        var_dump($celular);
 				$celular = "";
 			  $erroCelular = "Celular inválido";
 				$erros = true;
