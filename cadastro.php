@@ -1,4 +1,5 @@
 ﻿<?php
+session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -98,6 +99,7 @@ include "comum/funcoes.php";
 
 	  if(!empty($celular)) {
 		  if(!validarTelefone($celular)) {
+        var_dump($celular);
 				$celular = "";
 			  $erroCelular = "Celular inválido";
 				$erros = true;
@@ -111,7 +113,7 @@ include "comum/funcoes.php";
 				$erros = true;
 		  }
 	  }
-		//validar arquivo
+		//validar arquivo UPLOAD FOTO
 		$caminhoFoto = "";
 		if($_FILES) {
 		 	if($_FILES["foto"]["error"] == UPLOAD_ERR_OK) {
@@ -126,40 +128,44 @@ include "comum/funcoes.php";
 		 	}
 		}
 
-		//gravar dados
+		//gravar DADOS DE CADASTRO
 		$notificacao = null;
 
 		if(!$erros) {
 
-
 			$hashSenha = password_hash($_POST["senha"],PASSWORD_DEFAULT);
-
-			$dados = array('usuarios' => array());
-			$dados['usuarios'][] = array(
-				'nome' => $nome,
-				'email' => $email,
-				'senha' => $hashSenha,
-				'cpf' => $cpf,
-				'dataNascimento' => $dataNascimento,
-				'sexo' => $sexo,
-				'celular' => $celular,
-				'cep' => $cep,
-				'endereco' => $endereco,
-				'numero' => $numero,
-				'complemento' => $complemento,
-				'bairro' => $bairro,
-				'cidade' => $cidade,
-				'uf' => $uf,
-				'autorizacaoContato' => $autorizacaoContato,
-				'foto' => $caminhoFoto
-			);
 
 			try {
 				$filename = 'dados/usuarios.json';
-				$json = json_encode($dados);
-				$handle = fopen($filename,'a+');
-				fwrite($handle,$json);
-				fclose($handle);
+        if (file_exists($filename)) { // file_get_contents para file_exists
+          $json=file_get_contents($filename);
+          $dados=json_decode($json,true); // para array associativo // adicionei , true para tornar o array associativo// sem ele ele retorna um objeto.
+        } else {
+          $dados=["usuarios"=>[]];
+        }
+
+        $dados['usuarios'][] = [
+          'nome' => $nome,
+          'email' => $email,
+          'senha' => $hashSenha,
+          'cpf' => $cpf,
+          'dataNascimento' => $dataNascimento,
+          'sexo' => $sexo,
+          'celular' => $celular,
+          'cep' => $cep,
+          'endereco' => $endereco,
+          'numero' => $numero,
+          'complemento' => $complemento,
+          'bairro' => $bairro,
+          'cidade' => $cidade,
+          'uf' => $uf,
+          'autorizacaoContato' => $autorizacaoContato,
+          'foto' => $caminhoFoto
+        ];
+
+        $dadosemjson=json_encode($dados); //json string
+        file_put_contents($filename,$dadosemjson);
+
 				$notificacao = "Dados gravados com sucesso.";
 			} catch (Exception $e) {
 				$notificacao = "Não foi possivel gravar os dados: " . $e->getMessage();
@@ -178,28 +184,10 @@ include "comum/funcoes.php";
 			}
 
 			if(!$erros) {
-				$nome =  "";
-			  $email = "";
-			  $senha = "";
-			  $confirmacao = "";
-			  $cpf = "";
-			  $dataNascimento = "";
-			  $sexo = "";
-			  $celular = "";
-			  $cep = "";
-			  $endereco = "";
-			  $numero = "";
-			  $complemento = "";
-			  $bairro = "";
-			  $cidade = "";
-			  $uf = "";
-			  $autorizacaoContato = false;
+				header('Location: login.php?cadastro=true');
 			}
-
 		}
-
 	}
-
 ?>
 <!DOCTYPE html>
 <html lang="pt" dir="ltr">
@@ -354,7 +342,7 @@ include "comum/funcoes.php";
 						num.value = num.value + '-';
 					}
 			}
-			
+
 			function validarDados() {
 				if(!validarCpf(document.getElementById("cpf").value))
 				{
@@ -408,7 +396,8 @@ include "comum/funcoes.php";
         <div class="row">
   		  <div class="col-md-4 form-group">
             <label class="form-label-required" for="cpf">CPF:</label>
-            <input type="text" class="form-control" name="cpf" id="cpf" maxlength="14" onkeypress="mascaraCpf(this);" value="<?php echo(isset($cpf) ? $cpf : '') ?>" required />
+						<!-- INPUT apos maxlength onkeypress="mascaraCpf(this);" -->
+            <input type="text" class="form-control" name="cpf" id="cpf" maxlength="14" value="<?php echo(isset($cpf) ? $cpf : '') ?>" required />
 			<span id="av-cpf" class="erro-form"><?php echo isset($erroCpf) ? $erroCpf : "";?></span>
           </div>
           <div class="col-md-4 form-group">

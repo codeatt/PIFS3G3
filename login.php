@@ -1,3 +1,33 @@
+<?php
+session_start();
+// abaixo VERIFICA LOGIN PHP SERGIO
+if($_POST){
+  $email = $_POST["email"];
+  $senha = $_POST["senha"];
+  // var_dump($senha);
+  $usuariosJson = 'dados/usuarios.json';
+  $usuarios = file_get_contents($usuariosJson);
+
+  $usuariosArray = json_decode($usuarios, true);
+  // var_dump($usuariosArray);
+  // $teste = password_verify($_POST["senha"],$usuariosArray["senha"]);
+// var_dump($usuariosArray);
+  if (password_verify($_POST["senha"],$usuariosArray["senha"])) { //<<----otimizar, tentar tirar este if
+  foreach ($usuariosArray['usuarios'] as $key => $value) {
+      if(in_array($email, $usuariosArray['usuarios'][$key])){//verifica se usuario existe
+        if ($senha === $usuariosArray['usuarios'][$key]['senha']){//verifica senha
+          $_SESSION["email"]=$email;
+          header('Location: logados.php');
+        }else{
+          header('Location: login.php?error=true');
+        }
+      }
+   }
+}
+}
+// acima VERIFICA LOGIN PHP SERGIO
+
+?>
 <!DOCTYPE html>
 <html lang="pt" dir="ltr">
   <head>
@@ -13,32 +43,33 @@
   <body>
 
     <?php include "header.php"; ?>
-    <?php
-    // $value = 'alguma coisa de algum lugar';
-    //
-    // setcookie("CookieTeste", $value);
-    // setcookie("CookieTeste", $value, time()+3600);  /* expira em 1 hora */
-    // setcookie("CookieTeste", $value, time()+3600, "/~rasmus/", ".example.com", 1);
 
-
-
-
-     ?>
 <!-- LOGIN -->
 <div class="login-form">
-    <form action="/examples/actions/confirmation.php" method="post">
-        <h2 class="text-center">Faça seu Login</h2>
+    <form action="login.php" method="POST">
+        <h2 class="text-center">Faça seu Login</h2><br>
+        <?php
+        if(isset($_GET['error'])){
+          echo "<div class='alert alert-danger'>Autenticação negada</div>";
+        } else   if(isset($_GET['cadastro'])){
+          echo "<div class='alert alert-success'>Cadastro realizado com sucesso</div>";
+        }
+        ?>
         <div class="form-group">
-            <input type="text" class="form-control" placeholder="Usuário" required="required">
+            <label for="">Email:</label>
+            <input type="text" name="email" class="form-control" placeholder="usuario@email.com" required="required">
         </div>
         <div class="form-group">
-            <input type="password" class="form-control" placeholder="Senha" required="required">
+            <label for="">Senha:</label>
+            <input type="password" name="senha" class="form-control" placeholder="***********" required="required">
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-primary btn-block">Login</button>
         </div>
         <div class="clearfix">
-            <label class="pull-left checkbox-inline"><input type="checkbox"> Lembre-me</label>
+            <label class="pull-left checkbox-inline" for="lembrar-login">
+              <input type="checkbox" name="lembrarUsuario" id="lembrar-login"> Lembre-me
+            </label>
             <a href="#" class="pull-right">Esqueceu sua senha?</a>
         </div>
     </form>
