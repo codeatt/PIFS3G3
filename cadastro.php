@@ -111,9 +111,7 @@ include "comum/funcoes.php";
 		}
 
 		//gravar DADOS DE CADASTRO
-		$notificacao = null;
-
-		if(!$erros) {
+		if(!isset($mensagemErros)) {
 
 			$hashSenha = password_hash($_POST["senha"],PASSWORD_DEFAULT);
 
@@ -165,6 +163,7 @@ include "comum/funcoes.php";
 				header('Location: login.php?cadastro=true');
 			}
 		}
+
 	}
 ?>
 <!DOCTYPE html>
