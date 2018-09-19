@@ -22,94 +22,78 @@ include "comum/funcoes.php";
 	  $cidade = isset($_POST["cidade"]) ? $_POST["cidade"] : "";
 	  $uf = isset($_POST["uf"]) ? $_POST["uf"] : "";
 	  $autorizacaoContato = isset($_POST["autorizacaoContato"]) ? $_POST["autorizacaoContato"] : "";
-		$erros = false;
+	  $mensagemErros = [];
 
 	  if (empty($nome)) {
-			$erroNome = "Nome não informado";
-			$erros = true;
+			$mensagemErros[] = "Nome não informado";
 	  }
 	  else if(strpos($nome, ' ') === false || strlen($nome) < 10) {
 			$nome = "";
-			$erroNome = "Nome inválido";
-			$erros = true;
+			$mensagemErros[] = "Nome inválido";
 	  }
 
 	  if(empty($email)) {
 			$email = "";
-			$erroEmail = "E-mail não informado";
-			$erros = true;
+			$mensagemErros[] = "E-mail não informado";
 	  }
 	  else if (!validarEmail($email)) {
 			$email = "";
-			$erroEmail = "E-mail inválido";
-			$erros = true;
+			$$mensagemErros[] = "E-mail inválido";
 	  }
 
 	  if (strlen($senha) < '8') {
 			$senha = "";
-			$erroSenha = "Deve ter no mínimo 8 caracteres";
-			$erros = true;
+			$mensagemErros[] = "Deve ter no mínimo 8 caracteres";
 	  }
 	  elseif(!possuiNumeros($senha)) {
 			$senha = "";
-			$erroSenha = "Deve ter pelo menos um número";
-			$erros  = true;
+			$mensagemErros[] = "Deve ter pelo menos um número";
 	  }
 	  elseif(!possuiLetrasMaiusculas($senha)) {
 			$senha = "";
-			$erroSenha = "Deve ter pelo menos uma letra maiuscula";
-			$erros = true;
+			$mensagemErros[] = "Deve ter pelo menos uma letra maiuscula";
 	  }
 	  elseif(!possuiLetrasMinusculas($senha)) {
 			$senha = "";
-			$erroSenha = "Deve ter pelo menos uma letra minuscula";
-			$erros = true;
+			$mensagemErros[] = "Deve ter pelo menos uma letra minuscula";
 	  }
 	  elseif(!possuiCaracterEspecialValido($senha)) {
 			$senha = "";
-			$erroSenha = "Deve ter pelo menos um caracter especial: !@#$%&*-+.?";
-			$erros = true;
+			$mensagemErros[] = "Deve ter pelo menos um caracter especial: !@#$%&*-+.?";
 	  }
 	  else if ($confirmacao !== $senha) {
 			$confirmacao = "";
-			$erroConfirmacao = "As senhas informadas devem ser iguais";
-			$erros = true;
+			$mensagemErros[] = "As senhas informadas devem ser iguais";
 	  }
 
 	  if(empty($cpf)) {
 			$cpf = "";
-			$erroCpf = "CPF não informado";
-			$erros = true;
+			$mensagemErros[] = "CPF não informado";
 	  }
 	  // else if(validarCPF($cpf)) {
-		// 	$erroCpf = "CPF inválido";
-		// 	$erros = true;
+		// 	$mensagemErros[] = "CPF inválido";
 	  // }
 
 	  if(empty($dataNascimento)) {
 			$dataNascimento = "";
-			$erroDataNascimento = "Data não informada";
-			$erros = true;
+			$mensagemErros[] = "Data não informada";
 	  }
 	  else if(!validarData($dataNascimento)) {
 			$dataNascimento = "";
-			$erroDataNascimento = "Data inválida";
-			$erros = true;
+			$mensagemErros[] = "Data inválida";
 	  }
 
 	  if(!empty($celular)) {
 		  if(!validarTelefone($celular)) {
-				$celular = "";
-			  $erroCelular = "Celular inválido";
-				$erros = true;
+			$celular = "";
+			$mensagemErros[] = "Celular inválido";
 		  }
 	  }
 
 	  if(!empty($cep)) {
 		  if(!validarCEP($cep)) {
-				$cep = "";
-			  $erroCep = "CEP inválido";
-				$erros = true;
+			$cep = "";
+			$mensagemErros[] = "CEP inválido";
 		  }
 	  }
 		//validar arquivo UPLOAD FOTO
@@ -121,8 +105,7 @@ include "comum/funcoes.php";
 				$caminhoFoto = "foto/$nomeArquivo";
 
 				if(!validarArquivo($nomeArquivo,array('png','jpg'))) {
-					 $erroArquivo = "Somente arquivos do tipo PNG ou JPG";
-					 $erros = true;
+					$mensagemErros[] = "Somente arquivos do tipo PNG ou JPG";
 				}
 		 	}
 		}
@@ -136,53 +119,49 @@ include "comum/funcoes.php";
 
 			try {
 				$filename = 'dados/usuarios.json';
-        if (file_exists($filename)) { // file_get_contents para file_exists
-          $json=file_get_contents($filename);
-          $dados=json_decode($json,true); // para array associativo // adicionei , true para tornar o array associativo// sem ele ele retorna um objeto.
-        } else {
-          $dados=["usuarios"=>[]];
-        }
+				if (file_exists($filename)) { // file_get_contents para file_exists
+				  $json=file_get_contents($filename);
+				  $dados=json_decode($json,true); // para array associativo // adicionei , true para tornar o array associativo// sem ele ele retorna um objeto.
+				} else {
+				  $dados=["usuarios"=>[]];
+				}
 
-        $dados['usuarios'][] = [
-          'nome' => $nome,
-          'email' => $email,
-          'senha' => $hashSenha,
-          'cpf' => $cpf,
-          'dataNascimento' => $dataNascimento,
-          'sexo' => $sexo,
-          'celular' => $celular,
-          'cep' => $cep,
-          'endereco' => $endereco,
-          'numero' => $numero,
-          'complemento' => $complemento,
-          'bairro' => $bairro,
-          'cidade' => $cidade,
-          'uf' => $uf,
-          'autorizacaoContato' => $autorizacaoContato,
-          'foto' => $caminhoFoto
-        ];
+				$dados['usuarios'][] = [
+				  'nome' => $nome,
+				  'email' => $email,
+				  'senha' => $hashSenha,
+				  'cpf' => $cpf,
+				  'dataNascimento' => $dataNascimento,
+				  'sexo' => $sexo,
+				  'celular' => $celular,
+				  'cep' => $cep,
+				  'endereco' => $endereco,
+				  'numero' => $numero,
+				  'complemento' => $complemento,
+				  'bairro' => $bairro,
+				  'cidade' => $cidade,
+				  'uf' => $uf,
+				  'autorizacaoContato' => $autorizacaoContato,
+				  'foto' => $caminhoFoto
+				];
 
-        $dadosemjson=json_encode($dados); //json string
-        file_put_contents($filename,$dadosemjson);
+				$dadosemjson=json_encode($dados); //json string
+				file_put_contents($filename,$dadosemjson);
 
-				$notificacao = "Dados gravados com sucesso.";
 			} catch (Exception $e) {
-				$notificacao = "Não foi possivel gravar os dados: " . $e->getMessage();
+				$mensagemErros[] = "Não foi possivel gravar os dados: " . $e->getMessage();
 				$erros = true;
 			}
 			//gravar foto
 			if($caminhoFoto) {
 				try {
 					$status = move_uploaded_file($arquivoTemporario, $caminhoFoto);
-					$notificacao .= " Upload de foto enviado";
-
 				} catch (Exception $e) {
-					$erroArquivo = "Não foi possivel gravar a foto: " . $e->getMessage();
-					$erros = true;
+					$mensagemErros[] = "Não foi possivel gravar a foto: " . $e->getMessage();
 				}
 			}
 
-			if(!$erros) {
+			if(count($mensagemErros) <= 0) {
 				header('Location: login.php?cadastro=true');
 			}
 		}
@@ -357,12 +336,18 @@ include "comum/funcoes.php";
 <section class="container-fluid cadastro-main">
     <div class="container cadastro-main-form">
     <center><h1>CADASTRE-SE</h1></center>
-		<?php if(isset($notificacao)) { ?>
-			<div class="alert alert-success">
-				<span><?php echo $notificacao; ?></span>
+	<?php if(isset($mensagemErros)) { ?>
+		<?php if(count($mensagemErros) > 0) { ?>
+			<div class="alert alert-danger alert-dismissible fade in">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				<ul>
+				<?php foreach($mensagemErros as $msg) { ?>
+				<li><?php echo $msg; ?></li>
+				<?php } ?>
+				</ul>
 			</div>
 		<?php } ?>
-
+	<?php } ?>
 
     <form id="formCadastro" name="formCadastro" action="cadastro.php" method="post" enctype="multipart/form-data" autocomplete="off" onsubmit="return validarDados();">
         <div class="row">
