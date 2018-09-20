@@ -111,7 +111,7 @@ include "comum/funcoes.php";
 		}
 
 		//gravar DADOS DE CADASTRO
-		if(!isset($mensagemErros)) {
+		if(isset($mensagemErros)) {
 
 			$hashSenha = password_hash($_POST["senha"],PASSWORD_DEFAULT);
 

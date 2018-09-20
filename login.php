@@ -7,17 +7,17 @@ if($_POST){
   $usuariosJson = 'dados/usuarios.json';
   $usuarios = file_get_contents($usuariosJson);
   $usuariosArray = json_decode($usuarios, true);
-  $senhateste='$2y$10$Y5ZViE6vuEq.G2M6EN8NDe0e//XcP5jHTLLq65WzFERappbS4MEfi';
-  foreach ($usuariosArray['usuarios'] as $key => $value) {
-      if(in_array($email, $usuariosArray['usuarios'][$key])){//verifica se usuario existe
-        if (password_verify($senha,$usuariosArray['usuarios'][$key]['senha'])){//verifica senha
-          $_SESSION["email"]=$email;
-          header('Location: logados.php');
-        }else{
-          header('Location: login.php?error=true');
-        }
+
+  foreach($usuariosArray as $key) {
+    if(in_array($email, $key[0])){//verifica se usuario existe
+      if (password_verify($senha,$key[0]['senha'])){//verifica senha
+        $_SESSION["email"]=$email;
+        header('Location: logados.php');
+      }else{
+        header('Location: login.php?error=true');
       }
-   }
+    }
+  }
 }
 // acima VERIFICA LOGIN PHP SERGIO
 ?>
