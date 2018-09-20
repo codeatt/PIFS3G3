@@ -2,12 +2,18 @@
 session_start();
 // abaixo VERIFICA LOGIN PHP SERGIO
 if($_POST){
+  echo "1<br/>";
   $email = $_POST["email"];
+  echo "2<br/>";
   $senha = $_POST["senha"];
+  echo "3<br/>";
   $usuariosJson = 'dados/usuarios.json';
+  echo "4<br/>";
   $usuarios = file_get_contents($usuariosJson);
+  echo "5<br/>";
   $usuariosArray = json_decode($usuarios, true);
-  $senhateste='$2y$10$Y5ZViE6vuEq.G2M6EN8NDe0e//XcP5jHTLLq65WzFERappbS4MEfi';
+  echo "6<br/>";
+  // $senhateste='$2y$10$Y5ZViE6vuEq.G2M6EN8NDe0e//XcP5jHTLLq65WzFERappbS4MEfi';
   foreach ($usuariosArray['usuarios'] as $key => $value) {
       if(in_array($email, $usuariosArray['usuarios'][$key])){//verifica se usuario existe
         if (password_verify($senha,$usuariosArray['usuarios'][$key]['senha'])){//verifica senha
