@@ -28,9 +28,21 @@ SET time_zone = "+00:00";
 -- Estrutura da tabela `categoria`
 --
 
-CREATE TABLE `categoria` (
+CREATE TABLE IF NOT EXISTS  `categoria` (
   `CategoriaId` int(11) NOT NULL,
   `Descricao` varchar(50) NOT NULL,
+  `Ativo` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `editora`
+--
+
+CREATE TABLE IF NOT EXISTS  `editora` (
+  `EditoraId` int(11) NOT NULL,
+  `Nome` varchar(50) NOT NULL,
   `Ativo` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -40,7 +52,7 @@ CREATE TABLE `categoria` (
 -- Estrutura da tabela `cliente`
 --
 
-CREATE TABLE `cliente` (
+CREATE TABLE IF NOT EXISTS  `cliente` (
   `ClienteId` int(11) NOT NULL,
   `Nome` varchar(50) NOT NULL,
   `CPF` varchar(11) NOT NULL,
@@ -55,10 +67,63 @@ CREATE TABLE `cliente` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `livro`
+--
+
+CREATE TABLE IF NOT EXISTS  `livro` (
+  `LivroId` int(11) NOT NULL,
+  `Titulo` varchar(50) NOT NULL,
+  `Autor` varchar(30) NOT NULL,
+  `Preco` float(7,2) NOT NULL,
+  `QtdEstoque` int(11) NOT NULL,
+  `Edicao` varchar(20) NOT NULL,
+  `Ativo` tinyint(1) NOT NULL,
+  `EditoraId` int(11) NOT NULL,
+  `CategoriaId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `vendastatus`
+--
+
+CREATE TABLE IF NOT EXISTS  `vendastatus` (
+  `VendaStatusId` int(11) NOT NULL,
+  `Descricao` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `pagamentostatus`
+--
+
+CREATE TABLE IF NOT EXISTS  `pagamentostatus` (
+  `PagamentoStatusId` int(11) NOT NULL,
+  `Descricao` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tipocontato`
+--
+
+CREATE TABLE IF NOT EXISTS  `tipocontato` (
+  `TipoContatoId` int(11) NOT NULL,
+  `Descricao` varchar(20) NOT NULL,
+  `Ativo` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `clientecontato`
 --
 
-CREATE TABLE `clientecontato` (
+CREATE TABLE IF NOT EXISTS  `clientecontato` (
   `ClienteContatoId` int(11) NOT NULL,
   `ClienteId` int(11) NOT NULL,
   `TipoContatoId` int(11) NOT NULL,
@@ -72,7 +137,7 @@ CREATE TABLE `clientecontato` (
 -- Estrutura da tabela `clienteendereco`
 --
 
-CREATE TABLE `clienteendereco` (
+CREATE TABLE IF NOT EXISTS  `clienteendereco` (
   `ClienteEnderecoId` int(11) NOT NULL,
   `ClienteId` int(11) NOT NULL,
   `Logradouro` varchar(50) NOT NULL,
@@ -89,90 +154,10 @@ CREATE TABLE `clienteendereco` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `editora`
---
-
-CREATE TABLE `editora` (
-  `EditoraId` int(11) NOT NULL,
-  `Nome` varchar(50) NOT NULL,
-  `Ativo` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `livro`
---
-
-CREATE TABLE `livro` (
-  `LivroId` int(11) NOT NULL,
-  `Titulo` varchar(50) NOT NULL,
-  `Preco` float(7,2) NOT NULL,
-  `QtdEstoque` int(11) NOT NULL,
-  `Ano` int(11) NOT NULL,
-  `Ativo` tinyint(1) NOT NULL,
-  `EditoraId` int(11) NOT NULL,
-  `CategoriaId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `pagamento`
---
-
-CREATE TABLE `pagamento` (
-  `PagamentoId` int(11) NOT NULL,
-  `PedidoId` int(11) NOT NULL,
-  `PagamentoStatusId` int(11) NOT NULL,
-  `DataPagamento` datetime NOT NULL,
-  `Observacao` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `pagamentostatus`
---
-
-CREATE TABLE `pagamentostatus` (
-  `PagamentoStatusId` int(11) NOT NULL,
-  `Descricao` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tipocontato`
---
-
-CREATE TABLE `tipocontato` (
-  `TipoContatoId` int(11) NOT NULL,
-  `Descricao` varchar(20) NOT NULL,
-  `Ativo` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `usuario`
---
-
-CREATE TABLE `usuario` (
-  `UsuarioId` int(11) NOT NULL,
-  `Login` varchar(20) NOT NULL,
-  `Senha` varchar(20) NOT NULL,
-  `ClienteId` int(11) NOT NULL,
-  `Ativo` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Estrutura da tabela `venda`
 --
 
-CREATE TABLE `venda` (
+CREATE TABLE IF NOT EXISTS  `venda` (
   `PedidoId` int(11) NOT NULL,
   `VendaStatusId` int(11) NOT NULL,
   `ClienteId` int(11) NOT NULL,
@@ -184,28 +169,73 @@ CREATE TABLE `venda` (
   `ValorDesconto` decimal(7,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `estoque`
+--
+
+CREATE TABLE IF NOT EXISTS  `estoque` (
+  `EstoqueId` int(11) NOT NULL,
+  `LivroId` int(11) NOT NULL,
+  `Data` int(11) NOT NULL,
+  `Quantidade` int(11) NOT NULL,
+  `MovimentoId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `movimento`
+--
+
+CREATE TABLE IF NOT EXISTS  `movimento` (
+  `MovimentoId` int(11) NOT NULL,
+  `Motivo` varchar(30) NOT NULL,
+  `TipoMovimento` char(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `pagamento`
+--
+
+CREATE TABLE IF NOT EXISTS  `pagamento` (
+  `PagamentoId` int(11) NOT NULL,
+  `PedidoId` int(11) NOT NULL,
+  `PagamentoStatusId` int(11) NOT NULL,
+  `DataPagamento` datetime NOT NULL,
+  `Observacao` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `usuario`
+--
+
+CREATE TABLE IF NOT EXISTS  `usuario` (
+  `UsuarioId` int(11) NOT NULL,
+  `Login` varchar(20) NOT NULL,
+  `Senha` varchar(20) NOT NULL,
+  `ClienteId` int(11) NOT NULL,
+  `Ativo` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 -- --------------------------------------------------------
 
 --
 -- Estrutura da tabela `vendaitem`
 --
 
-CREATE TABLE `vendaitem` (
+CREATE TABLE IF NOT EXISTS  `vendaitem` (
+  `ItemId` int(11) NOT NULL,
   `LivroId` int(11) NOT NULL,
   `PedidoId` int(11) NOT NULL,
   `ValorItem` decimal(7,2) NOT NULL,
   `Quantidade` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `vendastatus`
---
-
-CREATE TABLE `vendastatus` (
-  `VendaStatusId` int(11) NOT NULL,
-  `Descricao` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -299,7 +329,9 @@ ALTER TABLE `venda`
 -- Indexes for table `vendaitem`
 --
 ALTER TABLE `vendaitem`
-  ADD PRIMARY KEY (`LivroId`,`PedidoId`) USING BTREE;
+  ADD PRIMARY KEY (`ItemId`);
+  ADD KEY `FK_Item_Livro` (`LivrId`),
+  ADD KEY `FK_Item_Venda` (`PedidoId`);
 
 --
 -- Indexes for table `vendastatus`
@@ -377,6 +409,12 @@ ALTER TABLE `usuario`
 --
 ALTER TABLE `venda`
   MODIFY `PedidoId` int(11) NOT NULL AUTO_INCREMENT;
+  
+--
+-- AUTO_INCREMENT for table `vendaitem`
+--
+ALTER TABLE `vendaitem`
+  MODIFY `ItemId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `vendastatus`
