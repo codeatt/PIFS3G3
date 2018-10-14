@@ -163,6 +163,7 @@ CREATE TABLE `clienteendereco` (
   `Bairro` varchar(30) NOT NULL,
   `Cidade` varchar(30) NOT NULL,
   `UF` char(2) NOT NULL,
+  `CEP` char(8) NOT NULL,
   `Entrega` tinyint(1) NOT NULL,
   `Fiscal` tinyint(1) NOT NULL,
   `Ativo` tinyint(1) NOT NULL
@@ -334,6 +335,11 @@ ALTER TABLE `pagamento`
 ALTER TABLE `pagamento`
   ADD CONSTRAINT `FK_Pagamento_Status` FOREIGN KEY (`PagamentoStatusId`) REFERENCES `pagamentostatus` (`PagamentoStatusId`),
   ADD CONSTRAINT `FK_Pagamento_Venda` FOREIGN KEY (`PedidoId`) REFERENCES `venda` (`PedidoId`);
+  
+  
+insert into `tipocontato` (`Descricao`,`Ativo`) values (`Telefone Residencial`,true);
+insert into `tipocontato` (`Descricao`,`Ativo`) values (`Telefone Comercial`,true);
+insert into `tipocontato` (`Descricao`,`Ativo`) values (`E-mail`,true);
 
 COMMIT;
 
