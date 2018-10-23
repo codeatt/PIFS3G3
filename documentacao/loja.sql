@@ -183,7 +183,7 @@ ALTER TABLE `clienteendereco`
 
 CREATE TABLE `usuario` (
   `UsuarioId` int(11) NOT NULL,
-  `Login` varchar(20) NOT NULL,
+  `Login` varchar(50) NOT NULL,
   `Senha` varchar(20) NOT NULL,
   `ClienteId` int(11) NOT NULL,
   `Ativo` tinyint(1) NOT NULL
@@ -336,11 +336,10 @@ ALTER TABLE `pagamento`
   ADD CONSTRAINT `FK_Pagamento_Status` FOREIGN KEY (`PagamentoStatusId`) REFERENCES `pagamentostatus` (`PagamentoStatusId`),
   ADD CONSTRAINT `FK_Pagamento_Venda` FOREIGN KEY (`PedidoId`) REFERENCES `venda` (`PedidoId`);
   
+insert into `tipocontato` (`Descricao`,`Ativo`) values ('Telefone Residencial',true);
+insert into `tipocontato` (`Descricao`,`Ativo`) values ('Telefone Comercial',true);
+insert into `tipocontato` (`Descricao`,`Ativo`) values ('E-mail',true);
   
-insert into `tipocontato` (`Descricao`,`Ativo`) values (`Telefone Residencial`,true);
-insert into `tipocontato` (`Descricao`,`Ativo`) values (`Telefone Comercial`,true);
-insert into `tipocontato` (`Descricao`,`Ativo`) values (`E-mail`,true);
-
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

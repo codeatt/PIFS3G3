@@ -1,27 +1,30 @@
 <?php
+
+class Funcoes() {
+
 //Verificar caracteres minusculos
-function possuiLetrasMinusculas($valor) {
+public static function possuiLetrasMinusculas($valor) {
     return preg_match('/[a-z]/', $valor);
 }
 //Verificar caracteres maiusculos
-function possuiLetrasMaiusculas($valor) {
+public static function possuiLetrasMaiusculas($valor) {
     return preg_match('/[A-Z]/', $valor);
 }
 //Verificar numeros
-function possuiNumeros($valor) {
+public static function possuiNumeros($valor) {
     return preg_match('/[0-9]/', $valor);
 }
 //Verificar caracteres especiais aceitos para composição de senha
-function possuiCaracterEspecialValido($valor) {
+public static function possuiCaracterEspecialValido($valor) {
     return preg_match('/[!@#$%&*-+.?]/', $valor);
 }
 //Verifica se possui apenas caracteres alfanumericos
-function possuiSomenteCaracterAlfanumerico($valor) {
+public static function possuiSomenteCaracterAlfanumerico($valor) {
     return ctype_alnum(str_replace(array('-', '_'), '', $valor));
 }
 
 //Validar data no formato dd/MM/yyyy
-function validarData($valor) {
+public static function validarData($valor) {
   // if(preg_match('/^[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}$/', $valor))
   // {
   if(strpos($valor,'/')) {
@@ -39,19 +42,19 @@ function validarData($valor) {
   // }
 }
 //Validar email
-function validarEmail($valor) {
+public static function validarEmail($valor) {
   return filter_var($valor, FILTER_VALIDATE_EMAIL);
 }
 //Validar telefone 8 e 9 digitos
-function validarTelefone($valor) {
+public static function validarTelefone($valor) {
 	return preg_match('/^\([0-9]{2}\)?\s?[0-9]{4,5}-[0-9]{4}$/', $valor);
 }
 //Validar CEP
-function validarCEP($valor) {
+public static function validarCEP($valor) {
 	return preg_match('/[0-9]{5,5}([-]?[0-9]{3})?$/', $valor);
 }
 //Verifica se CPF é válido
-function validarCPF($cpf) {
+public static function validarCPF($cpf) {
 
 	// Verifica se um número foi informado
 	if(empty($cpf)) {
@@ -99,10 +102,11 @@ function validarCPF($cpf) {
 }
 
 //Validar extensão de arquivo
-function validarArquivo($nomeArquivo,$ext) {
+public static function validarArquivo($nomeArquivo,$ext) {
   $tmpnome = explode('.', $nomeArquivo);
   $extensao = strtolower(end($tmpnome));
   return (array_search($extensao, $ext) !== false);
 }
 
+}
 ?>

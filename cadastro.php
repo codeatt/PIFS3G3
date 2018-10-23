@@ -1,170 +1,29 @@
 ﻿<?php
+require 'comum/Funcoes.php';
+require 'BaseData.php';
+require 'Endereco.php';
+require 'Contato.php';
+
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-include "comum/funcoes.php";
-
-	if($_POST) {
-	  $nome = isset($_POST["nome"]) ? $_POST["nome"] : "";
-	  $email = isset($_POST["email"]) ? $_POST["email"] : "";
-	  $senha = isset($_POST["senha"]) ? $_POST["senha"] : "";
-	  $confirmacao = isset($_POST["confirmacao"]) ? $_POST["confirmacao"] : "";
-	  $cpf = isset($_POST["cpf"]) ? $_POST["cpf"] : "";
-	  $dataNascimento = isset($_POST["dataNascimento"]) ? $_POST["dataNascimento"] : "";
-	  $sexo = isset($_POST["sexo"]) ? $_POST["sexo"] : "";
-	  $celular = isset($_POST["celular"]) ? $_POST["celular"] : "";
-	  $cep = isset($_POST["cep"]) ? $_POST["cep"] : "";
-	  $endereco = isset($_POST["endereco"]) ? $_POST["endereco"] : "";
-	  $numero = isset($_POST["numero"]) ? $_POST["numero"] : "";
-	  $complemento = isset($_POST["complemento"]) ? $_POST["complemento"] : "";
-	  $bairro = isset($_POST["bairro"]) ? $_POST["bairro"] : "";
-	  $cidade = isset($_POST["cidade"]) ? $_POST["cidade"] : "";
-	  $uf = isset($_POST["uf"]) ? $_POST["uf"] : "";
-	  $autorizacaoContato = isset($_POST["autorizacaoContato"]) ? $_POST["autorizacaoContato"] : "";
-	  $mensagemErros = [];
-
-	  if (empty($nome)) {
-			$mensagemErros[] = "Nome não informado";
-	  }
-	  else if(strpos($nome, ' ') === false || strlen($nome) < 10) {
-			$nome = "";
-			$mensagemErros[] = "Nome inválido";
-	  }
-
-	  if(empty($email)) {
-			$email = "";
-			$mensagemErros[] = "E-mail não informado";
-	  }
-	  else if (!validarEmail($email)) {
-			$email = "";
-			$$mensagemErros[] = "E-mail inválido";
-	  }
-
-	  if (strlen($senha) < '8') {
-			$senha = "";
-			$mensagemErros[] = "Deve ter no mínimo 8 caracteres";
-	  }
-	  elseif(!possuiNumeros($senha)) {
-			$senha = "";
-			$mensagemErros[] = "Deve ter pelo menos um número";
-	  }
-	  elseif(!possuiLetrasMaiusculas($senha)) {
-			$senha = "";
-			$mensagemErros[] = "Deve ter pelo menos uma letra maiuscula";
-	  }
-	  elseif(!possuiLetrasMinusculas($senha)) {
-			$senha = "";
-			$mensagemErros[] = "Deve ter pelo menos uma letra minuscula";
-	  }
-	  elseif(!possuiCaracterEspecialValido($senha)) {
-			$senha = "";
-			$mensagemErros[] = "Deve ter pelo menos um caracter especial: !@#$%&*-+.?";
-	  }
-	  else if ($confirmacao !== $senha) {
-			$confirmacao = "";
-			$mensagemErros[] = "As senhas informadas devem ser iguais";
-	  }
-
-	  if(empty($cpf)) {
-			$cpf = "";
-			$mensagemErros[] = "CPF não informado";
-	  }
-	  // else if(validarCPF($cpf)) {
-		// 	$mensagemErros[] = "CPF inválido";
-	  // }
-
-	  if(empty($dataNascimento)) {
-			$dataNascimento = "";
-			$mensagemErros[] = "Data não informada";
-	  }
-	  else if(!validarData($dataNascimento)) {
-			$dataNascimento = "";
-			$mensagemErros[] = "Data inválida";
-	  }
-
-	  if(!empty($celular)) {
-		  if(!validarTelefone($celular)) {
-			$celular = "";
-			$mensagemErros[] = "Celular inválido";
-		  }
-	  }
-
-	  if(!empty($cep)) {
-		  if(!validarCEP($cep)) {
-			$cep = "";
-			$mensagemErros[] = "CEP inválido";
-		  }
-	  }
-		//validar arquivo UPLOAD FOTO
-		$caminhoFoto = "";
-		if($_FILES) {
-		 	if($_FILES["foto"]["error"] == UPLOAD_ERR_OK) {
-				$nomeArquivo = $_FILES["foto"]["name"];
-				$arquivoTemporario = $_FILES["foto"]["tmp_name"];
-				$caminhoFoto = "foto/$nomeArquivo";
-
-				if(!validarArquivo($nomeArquivo,array('png','jpg'))) {
-					$mensagemErros[] = "Somente arquivos do tipo PNG ou JPG";
-				}
-		 	}
-		}
-
-		//gravar DADOS DE CADASTRO
-		if(isset($mensagemErros)) {
-
-			$hashSenha = password_hash($_POST["senha"],PASSWORD_DEFAULT);
-
-			try {
-				$filename = 'dados/usuarios.json';
-				if (file_exists($filename)) { // file_get_contents para file_exists
-				  $json=file_get_contents($filename);
-				  $dados=json_decode($json,true); // para array associativo // adicionei , true para tornar o array associativo// sem ele ele retorna um objeto.
-				} else {
-				  $dados=["usuarios"=>[]];
-				}
-
-				$dados['usuarios'][] = [
-				  'nome' => $nome,
-				  'email' => $email,
-				  'senha' => $hashSenha,
-				  'cpf' => $cpf,
-				  'dataNascimento' => $dataNascimento,
-				  'sexo' => $sexo,
-				  'celular' => $celular,
-				  'cep' => $cep,
-				  'endereco' => $endereco,
-				  'numero' => $numero,
-				  'complemento' => $complemento,
-				  'bairro' => $bairro,
-				  'cidade' => $cidade,
-				  'uf' => $uf,
-				  'autorizacaoContato' => $autorizacaoContato,
-				  'foto' => $caminhoFoto
-				];
-
-				$dadosemjson=json_encode($dados); //json string
-				file_put_contents($filename,$dadosemjson);
-
-			} catch (Exception $e) {
-				$mensagemErros[] = "Não foi possivel gravar os dados: " . $e->getMessage();
-				$erros = true;
-			}
-			//gravar foto
-			if($caminhoFoto) {
-				try {
-					$status = move_uploaded_file($arquivoTemporario, $caminhoFoto);
-				} catch (Exception $e) {
-					$mensagemErros[] = "Não foi possivel gravar a foto: " . $e->getMessage();
-				}
-			}
-
+try {
+	$cliente = new Cliente($_POST);
+	$mensagemErros = $cliente->ValidarDados();
+	if(count($mensagemErros) <= 0) {
+		$mensagemErros = $cliente->CadastrarCliente();
+		if(count($mensagemErros) <= 0) {
+			$mensagemErros = $cliente->Upload($_FILE);
 			if(count($mensagemErros) <= 0) {
 				header('Location: login.php?cadastro=true');
 			}
 		}
-
 	}
+} catch (Exception $e) {
+	$mensagemErros[] = "Não foi possivel gravar os dados: " . $e->getMessage();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="pt" dir="ltr">
