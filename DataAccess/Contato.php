@@ -19,6 +19,10 @@ class Contato {
     $this->ativo = true;
   }
 
+  public function getContatoId()
+  {
+    return $this->id;
+  }
   public function getTipoContatoId()
   {
     return $this->tipoContatoId;
@@ -27,9 +31,4 @@ class Contato {
   {
     return $this->contato;
   }
-  public function getContato()
-  {
-    return $this->contato;
-  }
-
 }

@@ -1,8 +1,9 @@
 ﻿<?php
 require 'comum/Funcoes.php';
-require 'BaseData.php';
-require 'Endereco.php';
-require 'Contato.php';
+require 'DataAccess/BaseData.php';
+require 'DataAccess/Cliente.php';
+require 'DataAccess/Endereco.php';
+require 'DataAccess/Contato.php';
 
 session_start();
 error_reporting(E_ALL);

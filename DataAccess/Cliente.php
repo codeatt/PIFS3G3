@@ -13,7 +13,7 @@ class Cliente extends BaseData {
   private $ativo;
   private $endereco;
   private $contatos;
-
+  private $usuario;
 
   public function __construct($dados)
   {
@@ -21,8 +21,6 @@ class Cliente extends BaseData {
       $this->clienteId = isset($dados["id"]) ? $dados["id"] : 0;
   	  $this->nome = isset($dados["nome"]) ? $dados["nome"] : "";
   	  $this->email = isset($dados["email"]) ? $dados["email"] : "";
-  	  $this->senha = isset($_POST["senha"]) ? $dados["senha"] : "";
-  	  $this->confirmacao = isset($dados["confirmacao"]) ? $dados["confirmacao"] : "";
   	  $this->cpf = isset($dados["cpf"]) ? $dados["cpf"] : "";
   	  $this->dataNascimento = isset($dados["dataNascimento"]) ? $dados["dataNascimento"] : "";
   	  $this->sexo = isset($dados["sexo"]) ? $dados["sexo"] : "";
@@ -36,6 +34,10 @@ class Cliente extends BaseData {
   	  $cidade = isset($dados["cidade"]) ? $dados["cidade"] : "";
   	  $uf = isset($dados["uf"]) ? $dados["uf"] : "";
       $cep = isset($dados["cep"]) ? $dados["cep"] : "";
+
+      $senha = isset($_POST["senha"]) ? $dados["senha"] : "";
+      $confirmacao = isset($dados["confirmacao"]) ? $dados["confirmacao"] : "";
+      $this->usuario = new Usuario($this->email, $senha, $confirmacao);
 
       $this->adicionarEndereco($endereco,$numero,$complemento,$bairro,$cidade,$cep,$uf,true,true);
 
@@ -98,28 +100,28 @@ class Cliente extends BaseData {
 			$this->mensagemErros[] = "E-mail inválido";
 	  }
 
-	  if (strlen($this->senha) < '8') {
-			$this->senha = "";
+	  if (strlen($this->usuario->senha) < '8') {
+			$this->usuario->senha = "";
 			$this->mensagemErros[] = "Deve ter no mínimo 8 caracteres";
 	  }
 	  elseif(!Funcoes::possuiNumeros($this->senha)) {
-			$this->senha = "";
+			$this->usuario->senha = "";
 			$this->mensagemErros[] = "Deve ter pelo menos um número";
 	  }
-	  elseif(!Funcoes::possuiLetrasMaiusculas($this->senha)) {
-			$this->senha = "";
+	  elseif(!Funcoes::possuiLetrasMaiusculas($this->usuario->senha)) {
+			$this->usuario->senha = "";
 			$this->mensagemErros[] = "Deve ter pelo menos uma letra maiuscula";
 	  }
-	  elseif(!Funcoes::possuiLetrasMinusculas($this->senha)) {
-			$this->senha = "";
+	  elseif(!Funcoes::possuiLetrasMinusculas($this->usuario->senha)) {
+			$this->usuario->senha = "";
 			$this->mensagemErros[] = "Deve ter pelo menos uma letra minuscula";
 	  }
-	  elseif(!Funcoes::possuiCaracterEspecialValido($this->senha)) {
-			$this->senha = "";
+	  elseif(!Funcoes::possuiCaracterEspecialValido($this->usuario->senha)) {
+			$this->usuario->senha = "";
 			$this->mensagemErros[] = "Deve ter pelo menos um caracter especial: !@#$%&*-+.?";
 	  }
-	  else if ($this->confirmacao !== $this->senha) {
-			$this->confirmacao = "";
+	  else if ($this->usuario->confirmacao !== $this->usuario->senha) {
+			$this->usuario->confirmacao = "";
 			$this->mensagemErros[] = "As senhas informadas devem ser iguais";
 	  }
 
@@ -190,24 +192,24 @@ class Cliente extends BaseData {
     return $this->autorizacaoEmail;
   }
 
-  public function adicionarEndereco($logradouro, $numero, $complemento, $bairro, $cidade, $cidade, $cep, $entrega, $fiscal)
+  public function adicionarEndereco($logradouro, $numero, $complemento, $bairro, $cidade, $uf, $cep, $entrega, $fiscal)
   {
-    this->endereco = new Endereco($logradouro, $numero, $complemento, $bairro, $cidade, $cidade, $cep, $entrega, $fiscal);
+    $this->endereco = new Endereco($logradouro, $numero, $complemento, $bairro, $cidade, $uf, $cep, $entrega, $fiscal);
   }
 
   public function getEndereco()
   {
-    return this->endereco;
+    return $this->endereco;
   }
 
   public function adicionarTelefone($contato)
   {
-    this->contatos[] = new Contato(0, Contato::TELEFONE_RESIDENCIAL, $contato, true);
+    $this->contatos[] = new Contato(0, Contato::TELEFONE_RESIDENCIAL, $contato, true);
   }
 
   public function adicionarEmail($contato)
   {
-    this->contatos[] = new Contato(0, Contato::EMAIL, $contato, true);
+    $this->contatos[] = new Contato(0, Contato::EMAIL, $contato, true);
   }
 
   public function getTelefoneResidencial()

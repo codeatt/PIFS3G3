@@ -1,15 +1,15 @@
 <?php
-class BaseData {
+abstract class BaseData {
   protected $db;
 
   public function __construct()
   {
     $dsn = 'mysql:host=localhost;dbname=loja;charset=utf8;port:3306';
     $usuario = 'root';
-    $senha = 'root';
+    $senha = '';
 
-    $db = new PDO($dsn, $db_user, $db_pass);
-    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $db = new PDO($dsn, $usuario, $senha);
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   }
 
   public function __destruct() {

@@ -1,6 +1,6 @@
 <?php
 
-class Funcoes() {
+class Funcoes {
 
 //Verificar caracteres minusculos
 public static function possuiLetrasMinusculas($valor) {

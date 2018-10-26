@@ -13,7 +13,7 @@ class Endereco {
   private $fiscal;
   private $ativo;
 
-  public function __construct($id, $logradouro, $numero, $complemento, $bairro, $cidade, $cidade, $cidade, $entrega, $fiscal)
+  public function __construct($id, $logradouro, $numero, $complemento, $bairro, $cidade, $uf, $cep, $entrega, $fiscal)
   {
     $this->id = $id;
     $this->logradouro = $logradouro;
@@ -21,8 +21,8 @@ class Endereco {
     $this->complemento = $complemento;
     $this->bairro = $bairro;
     $this->cidade = $cidade;
-    $this->uf = $cidade;
-    $this->cep = $cidade;
+    $this->uf = $uf;
+    $this->cep = $cep;
     $this->entrega = $entrega;
     $this->fiscal = $fiscal;
     $this->ativo = true;
