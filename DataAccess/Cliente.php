@@ -13,7 +13,8 @@ class Cliente extends BaseData {
   private $ativo;
   private $endereco;
   private $contatos;
-  private $usuario;
+  private $senha;
+  private $confirmacao;
 
   public function __construct($dados)
   {
@@ -35,9 +36,8 @@ class Cliente extends BaseData {
   	  $uf = isset($dados["uf"]) ? $dados["uf"] : "";
       $cep = isset($dados["cep"]) ? $dados["cep"] : "";
 
-      $senha = isset($_POST["senha"]) ? $dados["senha"] : "";
-      $confirmacao = isset($dados["confirmacao"]) ? $dados["confirmacao"] : "";
-      $this->usuario = new Usuario($this->email, $senha, $confirmacao);
+      $this->senha = isset($_POST["senha"]) ? $dados["senha"] : "";
+      $this->confirmacao = isset($dados["confirmacao"]) ? $dados["confirmacao"] : "";
 
       $this->adicionarEndereco($endereco,$numero,$complemento,$bairro,$cidade,$cep,$uf,true,true);
 
@@ -100,28 +100,28 @@ class Cliente extends BaseData {
 			$this->mensagemErros[] = "E-mail inválido";
 	  }
 
-	  if (strlen($this->usuario->senha) < '8') {
-			$this->usuario->senha = "";
+	  if (strlen($this->senha) < '8') {
+			$this->senha = "";
 			$this->mensagemErros[] = "Deve ter no mínimo 8 caracteres";
 	  }
 	  elseif(!Funcoes::possuiNumeros($this->senha)) {
-			$this->usuario->senha = "";
+			$this->senha = "";
 			$this->mensagemErros[] = "Deve ter pelo menos um número";
 	  }
-	  elseif(!Funcoes::possuiLetrasMaiusculas($this->usuario->senha)) {
-			$this->usuario->senha = "";
+	  elseif(!Funcoes::possuiLetrasMaiusculas($this->senha)) {
+			$this->senha = "";
 			$this->mensagemErros[] = "Deve ter pelo menos uma letra maiuscula";
 	  }
-	  elseif(!Funcoes::possuiLetrasMinusculas($this->usuario->senha)) {
-			$this->usuario->senha = "";
+	  elseif(!Funcoes::possuiLetrasMinusculas($this->senha)) {
+			$this->senha = "";
 			$this->mensagemErros[] = "Deve ter pelo menos uma letra minuscula";
 	  }
-	  elseif(!Funcoes::possuiCaracterEspecialValido($this->usuario->senha)) {
-			$this->usuario->senha = "";
+	  elseif(!Funcoes::possuiCaracterEspecialValido($this->senha)) {
+			$this->senha = "";
 			$this->mensagemErros[] = "Deve ter pelo menos um caracter especial: !@#$%&*-+.?";
 	  }
-	  else if ($this->usuario->confirmacao !== $this->usuario->senha) {
-			$this->usuario->confirmacao = "";
+	  else if ($this->confirmacao !== $this->senha) {
+			$this->confirmacao = "";
 			$this->mensagemErros[] = "As senhas informadas devem ser iguais";
 	  }
 
@@ -266,10 +266,10 @@ class Cliente extends BaseData {
     }
   }
 
-  private function IncluirCliente($cliente) {
+  private function IncluirCliente() {
     $id = 0;
     try{
-      $query = $db->prepare('insert into cliente (
+      $query = $this->db->prepare('insert into cliente (
         Nome,
         CPF,
         DataNascimento,
@@ -288,12 +288,12 @@ class Cliente extends BaseData {
         :AutorizacaoEmail,
         :Ativo
       )');
-      $query->bindValue(':Nome', $cliente->getNome());
-      $query->bindValue(':CPF', $cliente->getCpf());
-      $query->bindValue(':Sexo', $cliente->getSexo());
-      $query->bindValue(':FotoUrl', $cliente->getFotoUrl());
-      $query->bindValue(':FotoDescricao', $cliente->getFotoDescricao());
-      $query->bindValue(':AutorizacaoEmail', $cliente->getAutorizacaoEmail());
+      $query->bindValue(':Nome', $this->getNome());
+      $query->bindValue(':CPF', $this->getCpf());
+      $query->bindValue(':Sexo', $this->getSexo());
+      $query->bindValue(':FotoUrl', $this->getFotoUrl());
+      $query->bindValue(':FotoDescricao', $this->getFotoDescricao());
+      $query->bindValue(':AutorizacaoEmail', $this->getAutorizacaoEmail());
       $query->bindValue(':Ativo', true);
       $query->execute();
 
@@ -304,7 +304,7 @@ class Cliente extends BaseData {
     }
   }
 
-  private function EditarCliente($cliente) {
+  private function EditarCliente() {
     try{
       $query = $db->prepare('update cliente set
           Nome = :Nome,
@@ -317,12 +317,12 @@ class Cliente extends BaseData {
           Ativo = :Ativo
         where
           ClienteId = :ClienteId');
-      $query->bindValue(':Nome', $cliente->getNome());
-      $query->bindValue(':CPF', $cliente->getCpf());
-      $query->bindValue(':Sexo', $cliente->getSexo());
-      $query->bindValue(':FotoUrl', $cliente->getFotoUrl());
-      $query->bindValue(':FotoDescricao', $cliente->getFotoDescricao());
-      $query->bindValue(':AutorizacaoEmail', $cliente->getAutorizacaoEmail());
+      $query->bindValue(':Nome', $this->getNome());
+      $query->bindValue(':CPF', $this->getCpf());
+      $query->bindValue(':Sexo', $this->getSexo());
+      $query->bindValue(':FotoUrl', $this->getFotoUrl());
+      $query->bindValue(':FotoDescricao', $this->getFotoDescricao());
+      $query->bindValue(':AutorizacaoEmail', $this->getAutorizacaoEmail());
       $query->bindValue(':Ativo', true);
       $query->execute();
     }catch(PDOException $Exception) {
@@ -338,9 +338,12 @@ class Cliente extends BaseData {
     return $results;
   }
 
-  private function IncluirEndereco($clienteId, $endereco)
+  private function IncluirEndereco()
   {
     try{
+      
+      $endereco = $this->getEndereco();
+
       $query = $db->prepare('insert into ClienteEndereco (
         ClienteId,
         Logradouro,
@@ -365,7 +368,7 @@ class Cliente extends BaseData {
         :Ativo
       )');
 
-      $query->bindValue(':ClienteId',$clienteId);
+      $query->bindValue(':ClienteId',$this->getClienteId());
       $query->bindValue(':Logradouro',$endereco->logradouro);
       $query->bindValue(':Numero', $endereco->numero);
       $query->bindValue(':Complemento', $endereco->complemento);

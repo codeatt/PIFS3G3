@@ -8,27 +8,27 @@ abstract class BaseData {
     $usuario = 'root';
     $senha = '';
 
-    $db = new PDO($dsn, $usuario, $senha);
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $this->db = new PDO($dsn, $usuario, $senha);
+    $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   }
 
   public function __destruct() {
-    $db = null;
+    $this->db = null;
   }
 
   public function beginTransaction()
   {
-    $db->beginTransaction();
+    $this->db->beginTransaction();
   }
 
   public function rollBack()
   {
-    $db->rollBack();
+    $this->db->rollBack();
   }
 
   public function commit()
   {
-    $db->commit();
+    $this->db->commit();
   }
 
 }

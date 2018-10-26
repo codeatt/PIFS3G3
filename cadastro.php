@@ -10,14 +10,16 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 try {
-	$cliente = new Cliente($_POST);
-	$mensagemErros = $cliente->ValidarDados();
-	if(count($mensagemErros) <= 0) {
-		$mensagemErros = $cliente->CadastrarCliente();
-		if(count($mensagemErros) <= 0) {
-			$mensagemErros = $cliente->Upload($_FILE);
-			if(count($mensagemErros) <= 0) {
-				header('Location: login.php?cadastro=true');
+	if($_POST) {
+		$cliente = new Cliente($_POST);
+		$mensagemErros = $cliente->ValidarDados();	
+		if(!isset($mensa) || count($mensagemErros) <= 0) {
+			$mensagemErros = $cliente->CadastrarCliente();
+			if(!isset($mensa) || count($mensagemErros) <= 0) {
+				$mensagemErros = $cliente->Upload($_FILE);
+				if(!isset($mensa) || count($mensagemErros) <= 0) {
+					header('Location: login.php?cadastro=true');
+				}
 			}
 		}
 	}
