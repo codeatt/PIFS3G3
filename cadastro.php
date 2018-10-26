@@ -241,7 +241,6 @@ try {
         <div class="row">
   		  <div class="col-md-4 form-group">
             <label class="form-label-required" for="cpf">CPF:</label>
-						<!-- INPUT apos maxlength onkeypress="mascaraCpf(this);" -->
             <input type="text" class="form-control" name="cpf" id="cpf" maxlength="14" value="<?php echo(isset($cpf) ? $cpf : '') ?>" required />
 			<span id="av-cpf" class="erro-form"><?php echo isset($erroCpf) ? $erroCpf : "";?></span>
           </div>
@@ -260,14 +259,14 @@ try {
         <div class="row">
 		  <div class="col-md-4 form-group">
             <label class="form-label" for="celular">Celular:</label>
-            <input type="text" class="form-control" name="celular" id="celular" maxlength="14" onkeypress="mascaraCelular(this);" value="<?php echo(isset($celular) ? $celular : '') ?>" />
+            <input type="text" class="form-control" name="celular" id="celular" maxlength="14" value="<?php echo(isset($celular) ? $celular : '') ?>" />
 						<span class="erro-form"><?php echo isset($erroCelular) ? $erroCelular : ""; ?></span>
           </div>
         </div>
         <div class="row">
   		  <div class="col-md-4 form-group">
             <label class="form-label" for="cep">CEP:</label>
-            <input type="text" class="form-control" name="cep" id="cep" maxlength="9" onkeypress="mascaraCep(this);" value="<?php echo(isset($cep) ? $cep : '') ?>" />
+            <input type="text" class="form-control" name="cep" id="cep" maxlength="9" value="<?php echo(isset($cep) ? $cep : '') ?>" />
 						<span class="erro-form"><?php echo isset($erroCep) ? $erroCep : "";?></span>
           </div>
           <div class="col-md-8 form-group">
