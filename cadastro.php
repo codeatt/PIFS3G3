@@ -12,12 +12,14 @@ ini_set('display_errors', 1);
 try {
 	if($_POST) {
 		$cliente = new Cliente($_POST);
-		$mensagemErros = $cliente->ValidarDados();	
-		if(!isset($mensa) || count($mensagemErros) <= 0) {
-			$mensagemErros = $cliente->CadastrarCliente();
-			if(!isset($mensa) || count($mensagemErros) <= 0) {
-				$mensagemErros = $cliente->Upload($_FILE);
-				if(!isset($mensa) || count($mensagemErros) <= 0) {
+		$mensagemErros = $cliente->ValidarDados();
+		if(!isset($mensagemErros) || count($mensagemErros) <= 0) {
+			if($_FILES) {
+				$mensagemErros = $cliente->Upload($_FILES);
+			}
+			if(!isset($mensagemErros) || count($mensagemErros) <= 0) {
+				$mensagemErros = $cliente->CadastrarCliente();
+				if(!isset($mensagemErros) || count($mensagemErros) <= 0) {
 					header('Location: login.php?cadastro=true');
 				}
 			}

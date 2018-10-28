@@ -39,10 +39,10 @@ class Cliente extends BaseData {
       $this->senha = isset($_POST["senha"]) ? $dados["senha"] : "";
       $this->confirmacao = isset($dados["confirmacao"]) ? $dados["confirmacao"] : "";
 
-      $this->adicionarEndereco($endereco,$numero,$complemento,$bairro,$cidade,$cep,$uf,true,true);
+      $this->adicionarEndereco($endereco,$numero,$complemento,$bairro,$cidade,$uf,$cep,true,true);
 
 
-  	  $this->autorizacaoContato = isset($dados["autorizacaoContato"]) ? $dados["autorizacaoContato"] : "";
+  	  $this->autorizacaoEmail = isset($dados["autorizacaoContato"]) ? $dados["autorizacaoContato"] : "";
     }
 
     $this->mensagemErros = [];
@@ -66,7 +66,7 @@ class Cliente extends BaseData {
         $this->arquivoTemporario = $arquivoFoto["foto"]["tmp_name"];
 				$this->caminhoFoto = "foto/$nomeArquivo";
 
-				if(!validarArquivo($nomeArquivo,array('png','jpg'))) {
+				if(!Funcoes::validarArquivo($nomeArquivo,array('png','jpg'))) {
 					$mensagemErros[] = "Somente arquivos do tipo PNG ou JPG";
 				}
 		 	}
@@ -189,12 +189,12 @@ class Cliente extends BaseData {
   }
   public function getAutorizacaoEmail()
   {
-    return $this->autorizacaoEmail;
+    $this->autorizacaoEmail;
   }
 
   public function adicionarEndereco($logradouro, $numero, $complemento, $bairro, $cidade, $uf, $cep, $entrega, $fiscal)
   {
-    $this->endereco = new Endereco($logradouro, $numero, $complemento, $bairro, $cidade, $uf, $cep, $entrega, $fiscal);
+    $this->endereco = new Endereco(0, $logradouro, $numero, $complemento, $bairro, $cidade, $uf, $cep, $entrega, $fiscal);
   }
 
   public function getEndereco()
@@ -244,18 +244,15 @@ class Cliente extends BaseData {
     try{
       parent::beginTransaction();
 
-      $this->clienteId = $this->IncluirCliente();
-
-      if(isset($cliente->endereco))
+      $this->IncluirCliente();
+      if(isset($this->endereco))
       {
-        $this->IncluirEndereco($this->clienteId, $this->endereco);
+        $this->IncluirEndereco();
       }
 
-      if(count($cliente->contatos) > 0)
+      if(count($this->contatos) > 0)
       {
-        foreach ($cliente->contatos as $contato) {
-          $this->IncluirContato($cliente->clienteId, $contato);
-        }
+        $this->IncluirContatos();
       }
       $this->IncluirUsuario();
 
@@ -267,7 +264,6 @@ class Cliente extends BaseData {
   }
 
   private function IncluirCliente() {
-    $id = 0;
     try{
       $query = $this->db->prepare('insert into cliente (
         Nome,
@@ -276,7 +272,7 @@ class Cliente extends BaseData {
         Sexo,
         FotoUrl,
         FotoDescricao,
-        AutoriyacaoEmail,
+        AutorizaEmail,
         Ativo
       ) values (
         :Nome,
@@ -285,19 +281,20 @@ class Cliente extends BaseData {
         :Sexo,
         :FotoUrl,
         :FotoDescricao,
-        :AutorizacaoEmail,
+        :AutorizaEmail,
         :Ativo
       )');
       $query->bindValue(':Nome', $this->getNome());
       $query->bindValue(':CPF', $this->getCpf());
+      $query->bindValue(':DataNascimento', $this->getDataNascimento());
       $query->bindValue(':Sexo', $this->getSexo());
       $query->bindValue(':FotoUrl', $this->getFotoUrl());
       $query->bindValue(':FotoDescricao', $this->getFotoDescricao());
-      $query->bindValue(':AutorizacaoEmail', $this->getAutorizacaoEmail());
+      $query->bindValue(':AutorizaEmail', $this->getAutorizacaoEmail() ? 1 : 0);
       $query->bindValue(':Ativo', true);
       $query->execute();
 
-      $id = $db->lastInsertId();
+      $this->clienteId = $this->db->lastInsertId();
 
     } catch(PDOException $Exception) {
       throw new Exception("Erro ao incluir cliente: " . $Exception->getMessage());
@@ -306,23 +303,24 @@ class Cliente extends BaseData {
 
   private function EditarCliente() {
     try{
-      $query = $db->prepare('update cliente set
+      $query = $this->db->prepare('update cliente set
           Nome = :Nome,
           CPF = :CPF,
           DataNascimento = :DataNascimento,
           Sexo = :Sexo,
           FotoUrl = :FotoUrl,
           FotoDescricao = :FotoDescricao,
-          AutorizacaoEmail = :AutoriyacaoEmail,
+          AutorizaEmail = :AutorizaEmail,
           Ativo = :Ativo
         where
           ClienteId = :ClienteId');
       $query->bindValue(':Nome', $this->getNome());
       $query->bindValue(':CPF', $this->getCpf());
+      $query->bindValue(':DataNascimento', $this->getDataNascimento());
       $query->bindValue(':Sexo', $this->getSexo());
       $query->bindValue(':FotoUrl', $this->getFotoUrl());
       $query->bindValue(':FotoDescricao', $this->getFotoDescricao());
-      $query->bindValue(':AutorizacaoEmail', $this->getAutorizacaoEmail());
+      $query->bindValue(':AutorizaEmail', $this->getAutorizacaoEmail());
       $query->bindValue(':Ativo', true);
       $query->execute();
     }catch(PDOException $Exception) {
@@ -331,7 +329,7 @@ class Cliente extends BaseData {
   }
 
   public function ConsultarCliente($id) {
-    $query = $db->prepare('select * from cliente where clienteId = :clienteId');
+    $query = $this->db->prepare('select * from cliente where clienteId = :clienteId');
     $query->bindValue(':ClienteId',$clienteId);
     $query->execute();
     $results = $query->fetchAll(PDO::FETCH_NUM);
@@ -341,10 +339,8 @@ class Cliente extends BaseData {
   private function IncluirEndereco()
   {
     try{
-      
-      $endereco = $this->getEndereco();
 
-      $query = $db->prepare('insert into ClienteEndereco (
+      $query = $this->db->prepare('insert into ClienteEndereco (
         ClienteId,
         Logradouro,
         Numero,
@@ -369,25 +365,26 @@ class Cliente extends BaseData {
       )');
 
       $query->bindValue(':ClienteId',$this->getClienteId());
-      $query->bindValue(':Logradouro',$endereco->logradouro);
-      $query->bindValue(':Numero', $endereco->numero);
-      $query->bindValue(':Complemento', $endereco->complemento);
-      $query->bindValue(':Bairro', $endereco->bairro);
-      $query->bindValue(':Cidade', $endereco->cidade);
-      $query->bindValue(':UF', $endereco->uf);
-      $query->bindValue(':Entrega', $endereco->entrega);
-      $query->bindValue(':Fiscal', $endereco->fiscal);
-      $query->bindValue(':Ativo', $endereco->ativo);
+      $query->bindValue(':Logradouro',$this->endereco->getLogradouro());
+      $query->bindValue(':Numero', $this->endereco->getNumero());
+      $query->bindValue(':Complemento', $this->endereco->getComplemento());
+      $query->bindValue(':Bairro', $this->endereco->getBairro());
+      $query->bindValue(':Cidade', $this->endereco->getCidade());
+      $query->bindValue(':UF', $this->endereco->getUf());
+      $query->bindValue(':Entrega', $this->endereco->getEntrega() ? 1 : 0);
+      $query->bindValue(':Fiscal', $this->endereco->getFiscal() ? 1 : 0);
+      $query->bindValue(':Ativo', $this->endereco->getAtivo() ? 1 : 0);
       $query->execute();
     } catch(PDOException $Exception) {
       throw new Exception("Erro ao incluir endereco do cliente: " . $Exception->getMessage());
     }
   }
 
-  private function AlterarEndereco($clienteId, $endereco)
+  private function AlterarEndereco()
   {
     try{
-      $query = $db->prepare('update ClienteEndereco set
+
+      $query = $this->db->prepare('update ClienteEndereco set
         Logradouro = :Logradouro,
         Numero = :Numero,
         Complemento = :Complemento,
@@ -400,16 +397,17 @@ class Cliente extends BaseData {
       where
         ClienteEnderecoId = :ClienteEnderecoId');
 
-      $query->bindValue(':Logradouro',$endereco->logradouro);
-      $query->bindValue(':Numero', $endereco->numero);
-      $query->bindValue(':Complemento', $endereco->complemento);
-      $query->bindValue(':Bairro', $endereco->bairro);
-      $query->bindValue(':Cidade', $endereco->cidade);
-      $query->bindValue(':UF', $endereco->uf);
-      $query->bindValue(':Entrega', $endereco->entrega);
-      $query->bindValue(':Fiscal', $endereco->fiscal);
-      $query->bindValue(':Ativo', $endereco->ativo);
-      $query->bindValue(':ClienteEnderecoId',$endereco->id);
+      $query->bindValue(':ClienteId',$this->getClienteId());
+      $query->bindValue(':Logradouro',$this->endereco->getLogradouro());
+      $query->bindValue(':Numero', $this->endereco->getNumero());
+      $query->bindValue(':Complemento', $this->endereco->getComplemento());
+      $query->bindValue(':Bairro', $this->endereco->getBairro());
+      $query->bindValue(':Cidade', $this->endereco->getCidade());
+      $query->bindValue(':UF', $this->endereco->getUf());
+      $query->bindValue(':Entrega', $this->endereco->getEntrega() ? 1 : 0);
+      $query->bindValue(':Fiscal', $this->endereco->getFiscal() ? 1 : 0);
+      $query->bindValue(':Ativo', $this->endereco->getAtivo() ? 1 : 0);
+      $query->bindValue(':ClienteEnderecoId',$this->endereco->getId());
       $query->execute();
     } catch(PDOException $Exception) {
       throw new Exception("Erro ao alterar endereco do cliente: " . $Exception->getMessage());
@@ -417,17 +415,17 @@ class Cliente extends BaseData {
   }
 
   public function ConsultarEnderecos($clienteId) {
-    $query = $db->prepare('select * from ClienteEndereco where clienteId = :clienteId');
+    $query = $this->db->prepare('select * from ClienteEndereco where clienteId = :clienteId');
     $query->bindValue(':ClienteId',$clienteId);
     $query->execute();
     $results = $query->fetchAll(PDO::FETCH_NUM);
     return $results;
   }
 
-  private function IncluirContato($clienteId, $contato)
+  private function IncluirContatos()
   {
     try{
-      $query = $db->prepare('insert into ClienteContato (
+      $query = $this->db->prepare('insert into ClienteContato (
         ClienteId,
         TipoContatoId,
         Contato,
@@ -439,18 +437,20 @@ class Cliente extends BaseData {
         :Ativo
       )');
 
-      $query->bindValue(':ClienteId',$clienteId);
-      $query->bindValue(':TipoContatoId',$contato->tipoContatoId);
-      $query->bindValue(':Contato', $contato->contato);
-      $query->bindValue(':Ativo', $contato->ativo);
-      $query->execute();
+      foreach ($this->contatos as $contato) {
+        $query->bindValue(':ClienteId',$this->getClienteId());
+        $query->bindValue(':TipoContatoId',$contato->getTipoContatoId());
+        $query->bindValue(':Contato', $contato->getContato());
+        $query->bindValue(':Ativo', true);
+        $query->execute();
+      }
     } catch(PDOException $Exception) {
       throw new Exception("Erro ao incluir contato do cliente: " . $Exception->getMessage());
     }
   }
 
   public function ConsultarContatos() {
-    $query = $db->prepare('select * from ClienteContato where clienteId = :clienteId');
+    $query = $this->db->prepare('select * from ClienteContato where clienteId = :clienteId');
     $query->bindValue(':ClienteId',$this->clienteId);
     $query->execute();
     $results = $query->fetchAll(PDO::FETCH_NUM);
@@ -461,7 +461,7 @@ class Cliente extends BaseData {
   {
     try{
       $hashSenha = password_hash($this->senha,PASSWORD_DEFAULT);
-      $query = $db->prepare('insert into Usuario (
+      $query = $this->db->prepare('insert into Usuario (
         ClienteId,
         Login,
         Senha,
