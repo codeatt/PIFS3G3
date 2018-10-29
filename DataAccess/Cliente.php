@@ -21,12 +21,9 @@ class Cliente extends BaseData {
     if($dados) {
       $this->clienteId = isset($dados["id"]) ? $dados["id"] : 0;
   	  $this->nome = isset($dados["nome"]) ? $dados["nome"] : "";
-  	  $this->email = isset($dados["email"]) ? $dados["email"] : "";
   	  $this->cpf = isset($dados["cpf"]) ? $dados["cpf"] : "";
   	  $this->dataNascimento = isset($dados["dataNascimento"]) ? $dados["dataNascimento"] : "";
   	  $this->sexo = isset($dados["sexo"]) ? $dados["sexo"] : "";
-  	  $this->celular = isset($dados["celular"]) ? $dados["celular"] : "";
-
 
   	  $endereco = isset($dados["endereco"]) ? $dados["endereco"] : "";
   	  $numero = isset($dados["numero"]) ? $dados["numero"] : "";
@@ -35,11 +32,16 @@ class Cliente extends BaseData {
   	  $cidade = isset($dados["cidade"]) ? $dados["cidade"] : "";
   	  $uf = isset($dados["uf"]) ? $dados["uf"] : "";
       $cep = isset($dados["cep"]) ? $dados["cep"] : "";
+      $this->adicionarEndereco($endereco,$numero,$complemento,$bairro,$cidade,$uf,$cep,true,true);
 
       $this->senha = isset($_POST["senha"]) ? $dados["senha"] : "";
       $this->confirmacao = isset($dados["confirmacao"]) ? $dados["confirmacao"] : "";
 
-      $this->adicionarEndereco($endereco,$numero,$complemento,$bairro,$cidade,$uf,$cep,true,true);
+      $email = isset($dados["email"]) ? $dados["email"] : "";
+      $this->adicionarEmail($email);
+
+      $celular = isset($dados["celular"]) ? $dados["celular"] : "";
+      $this->adicionarCelular($celular);
 
 
   	  $this->autorizacaoEmail = isset($dados["autorizacaoContato"]) ? $dados["autorizacaoContato"] : "";
@@ -71,7 +73,7 @@ class Cliente extends BaseData {
 				}
 		 	}
 
-      if($caminhoFoto) {
+      if(!empty($caminhoFoto)) {
     		try {
     			$status = move_uploaded_file($arquivoTemporario, $caminhoFoto);
     		} catch (Exception $e) {
@@ -207,6 +209,11 @@ class Cliente extends BaseData {
     $this->contatos[] = new Contato(0, Contato::TELEFONE_RESIDENCIAL, $contato, true);
   }
 
+  public function adicionarCelular($contato)
+  {
+    $this->contatos[] = new Contato(0, Contato::TELEFONE_CELULAR, $contato, true);
+  }
+
   public function adicionarEmail($contato)
   {
     $this->contatos[] = new Contato(0, Contato::EMAIL, $contato, true);
@@ -214,28 +221,47 @@ class Cliente extends BaseData {
 
   public function getTelefoneResidencial()
   {
-    $resultado = null;
+    $telefone = null;
     foreach ($this->contatos as $contato) {
-      if($contato->tipoContatoId === Contato::TELEFONE_RESIDENCIAL)
+      if($contato->getTipoContatoId() === Contato::TELEFONE_RESIDENCIAL)
       {
-        $resultado = $contato;
+        $telefone = $contato;
         break;
       }
     }
-    return $resultado;
+    if(isset($telefone))
+      $telefone = $telefone->getContato();
+    return $telefone;
+  }
+
+  public function getTelefoneCelular()
+  {
+    $celular = null;
+    foreach ($this->contatos as $contato) {
+      if($contato->getTipoContatoId() === Contato::TELEFONE_CELULAR)
+      {
+        $celular = $contato;
+        break;
+      }
+    }
+    if(isset($celular))
+      $celular = $celular->getContato();
+    return $celular;
   }
 
   public function getEmail()
   {
-    $resultado = null;
+    $email = null;
     foreach ($this->contatos as $contato) {
-      if($contato->tipoContatoId === Endereco::EMAIL)
+      if($contato->getTipoContatoId() === Contato::EMAIL)
       {
-        $resultado = $contato;
+        $email = $contato;
         break;
       }
     }
-    return $resultado;
+    if(isset($email))
+      $email = $email->getContato();
+    return $email;
   }
 
 

@@ -5,6 +5,7 @@ class Contato {
   public const TELEFONE_RESIDENCIAL = 1;
   public const TELEFONE_COMERCIAL = 2;
   public const EMAIL = 3;
+  public const TELEFONE_CELULAR = 4;
 
   private $id;
   private $tipoContatoId;

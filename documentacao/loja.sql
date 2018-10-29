@@ -339,6 +339,7 @@ ALTER TABLE `pagamento`
 insert into `tipocontato` (`Descricao`,`Ativo`) values ('Telefone Residencial',true);
 insert into `tipocontato` (`Descricao`,`Ativo`) values ('Telefone Comercial',true);
 insert into `tipocontato` (`Descricao`,`Ativo`) values ('E-mail',true);
+insert into `tipocontato` (`Descricao`,`Ativo`) values ('Celular',true);
   
 COMMIT;
 

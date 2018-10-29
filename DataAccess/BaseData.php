@@ -6,7 +6,7 @@ abstract class BaseData {
   {
     $dsn = 'mysql:host=localhost;dbname=loja;charset=utf8;port:3306';
     $usuario = 'root';
-    $senha = 'root';
+    $senha = '';
 
     $this->db = new PDO($dsn, $usuario, $senha);
     $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
