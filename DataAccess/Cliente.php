@@ -7,8 +7,9 @@ class Cliente extends BaseData {
   private $cpf;
   private $dataNascimento;
   private $sexo;
-  private $fotoUrl;
+  private $caminhoFoto;
   private $fotoDescricao;
+  private $arquivoTemporario;
   private $autorizacaoEmail;
   private $ativo;
   private $endereco;
@@ -16,7 +17,7 @@ class Cliente extends BaseData {
   private $senha;
   private $confirmacao;
 
-  public function __construct($dados)
+  public function __construct($dados, $arquivoFoto)
   {
     if($dados) {
       $this->clienteId = isset($dados["id"]) ? $dados["id"] : 0;
@@ -47,6 +48,15 @@ class Cliente extends BaseData {
   	  $this->autorizacaoEmail = isset($dados["autorizacaoContato"]) ? $dados["autorizacaoContato"] : "";
     }
 
+		$this->caminhoFoto = "";
+		if($arquivoFoto) {
+		 	if($arquivoFoto["foto"]["error"] == UPLOAD_ERR_OK) {
+				$this->fotoDescricao = $arquivoFoto["foto"]["name"];
+        $this->arquivoTemporario = $arquivoFoto["foto"]["tmp_name"];
+				$this->caminhoFoto = "foto/$this->fotoDescricao";
+		 	}
+		}
+
     $this->mensagemErros = [];
 
     parent::__construct();
@@ -57,30 +67,16 @@ class Cliente extends BaseData {
     parent::__destruct();
   }
 
-  public function Upload($arquivoFoto)
+  private function Upload()
   {
     //validar arquivo UPLOAD FOTO
-		$this->caminhoFoto = "";
-		if($arquivoFoto) {
-		 	if($arquivoFoto["foto"]["error"] == UPLOAD_ERR_OK) {
-				$nomeArquivo = $arquivoFoto["foto"]["name"];
-
-        $this->arquivoTemporario = $arquivoFoto["foto"]["tmp_name"];
-				$this->caminhoFoto = "foto/$nomeArquivo";
-
-				if(!Funcoes::validarArquivo($nomeArquivo,array('png','jpg'))) {
-					$mensagemErros[] = "Somente arquivos do tipo PNG ou JPG";
-				}
-		 	}
-
-      if(!empty($caminhoFoto)) {
-    		try {
-    			$status = move_uploaded_file($arquivoTemporario, $caminhoFoto);
-    		} catch (Exception $e) {
-    			$mensagemErros[] = "Não foi possivel gravar a foto: " . $e->getMessage();
-    		}
-    	}
-		}
+    if(!empty($this->caminhoFoto)) {
+      try {
+        $status = move_uploaded_file($this->arquivoTemporario, $this->caminhoFoto);
+      } catch (Exception $e) {
+        $mensagemErros[] = "Não foi possivel gravar a foto: " . $e->getMessage();
+      }
+    }
   }
 
   public function ValidarDados()
@@ -156,9 +152,12 @@ class Cliente extends BaseData {
   			$this->mensagemErros[] = "CEP inválido";
 		  }
 	  }
+
+    if(!Funcoes::validarArquivo($this->caminhoFoto, array('png','jpg'))) {
+      $mensagemErros[] = "Somente arquivos do tipo PNG ou JPG";
+    }
+
   }
-
-
 
 
   public function getClienteId()
@@ -183,7 +182,7 @@ class Cliente extends BaseData {
   }
   public function getFotoUrl()
   {
-    return $this->fotoUrl;
+    return $this->caminhoFoto;
   }
   public function getFotoDescricao()
   {
@@ -270,6 +269,7 @@ class Cliente extends BaseData {
     try{
       parent::beginTransaction();
 
+      $this->Upload();
       $this->IncluirCliente();
       if(isset($this->endereco))
       {
@@ -290,6 +290,7 @@ class Cliente extends BaseData {
   }
 
   private function IncluirCliente() {
+
     try{
       $query = $this->db->prepare('insert into cliente (
         Nome,
