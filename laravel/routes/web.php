@@ -17,3 +17,5 @@ Route::get('/', function () {
 
 Route::get('/home', 'HomeController@index');
 Route::get('/faq', 'FaqController@perguntas');
+Route::get('/cadastro', 'CadastroController@cadastro');
+Route::get('/login', 'LoginController@login');
