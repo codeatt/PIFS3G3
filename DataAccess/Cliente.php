@@ -17,7 +17,12 @@ class Cliente extends BaseData {
   private $senha;
   private $confirmacao;
 
-  public function __construct($dados, $arquivoFoto)
+  public function __construct()
+  {
+
+  }
+
+  public static function build($dados, $arquivoFoto)
   {
     if($dados) {
       $this->clienteId = isset($dados["id"]) ? $dados["id"] : 0;
