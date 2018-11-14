@@ -19,3 +19,9 @@ Route::get('/home', 'HomeController@index');
 Route::get('/faq', 'FaqController@perguntas');
 Route::get('/cadastro', 'CadastroController@cadastro');
 Route::get('/login', 'LoginController@login');
+Route::get('/livros', 'LivroController@lista');
+
+Route::get('/livros/adicionar','LivroController@inserir');
+Route::post('/livros/adicionar','LivroController@gravarLivro');
+Route::get('/livros/editar/{id}','LivroController@editarLivro');
+Route::post('/livros/editar/{id}','LivroController@atualizarLivro');
