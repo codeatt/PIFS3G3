@@ -10,8 +10,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 try {
+	$cliente = new Cliente();
 	if($_POST) {
-		$cliente = new Cliente($_POST, $_FILES);
+		$cliente::build($_POST, $_FILES);
 		$mensagemErros = $cliente->ValidarDados();
 		if(!isset($mensagemErros) || count($mensagemErros) <= 0) {
 			$mensagemErros = $cliente->CadastrarCliente();
@@ -19,6 +20,8 @@ try {
 				header('Location: login.php?cadastro=true');
 			}
 		}
+	} else {
+
 	}
 } catch (Exception $e) {
 	$mensagemErros[] = "Não foi possivel gravar os dados: " . $e->getMessage();
@@ -211,116 +214,108 @@ try {
         <div class="row">
           <div class="col-md-12 form-group">
             <label class="form-label-required" for="nome">Nome Completo:</label>
-            <input type="text" class="form-control" name="nome" id="nome" maxlength="50" placeholder="Digite seu nome completo aqui" value="<?php echo(isset($nome) ? $nome : '') ?>" required />
-						<span class="erro-form"><?php echo isset($erroNome) ? $erroNome : "";?></span>
+            <input type="text" class="form-control" name="nome" id="nome" maxlength="50" placeholder="Digite seu nome completo aqui" value="<?php echo($cliente->getNome()) ?>" required />
           </div>
         </div>
         <div class="row">
           <div class="col-md-12 form-group">
             <label class="form-label-required" for="email">Email:</label>
-            <input type="email" class="form-control" id="email" name="email" maxlength="30" placeholder="Ex.: email@dominio.com" value="<?php echo(isset($email) ? $email : '') ?>" required />
-						<span class="erro-form"><?php echo isset($erroEmail) ? $erroEmail : "";?></span>
+            <input type="email" class="form-control" id="email" name="email" maxlength="30" placeholder="Ex.: email@dominio.com" value="<?php echo($cliente->getEmail()) ?>" required />
           </div>
         </div>
         <div class="row">
           <div class="col-md-6 form-group">
             <label class="form-label-required" for="senha">Senha:</label>
-            <input type="password" class="form-control" id="senha" name="senha" maxlength="20" placeholder="Digite sua senha aqui" value="<?php echo(isset($senha) ? $senha : '') ?>"  required />
+            <input type="password" class="form-control" id="senha" name="senha" maxlength="20" placeholder="Digite sua senha aqui" value="<?php echo($cliente->getSenha()) ?>"  required />
 						<label><input type="checkbox" id="mostrarSenha" name="mostrarSenha" onclick="exibirSenha();" />Exibir senha</label>
-						<span class="erro-form"><?php echo isset($erroSenha) ? $erroSenha : "";?></span>
           </div>
           <div class="col-md-6 form-group">
             <label class="form-label-required" for="confirmacao">Confirmar Senha:</label>
-            <input type="password" class="form-control" id="confirmacao" name="confirmacao" maxlength="20" placeholder="Repita sua senha aqui" value="<?php echo(isset($confirmacao) ? $confirmacao : '') ?>"  required />
-						<span class="erro-form"><?php echo isset($erroConfirmacao) ? $erroConfirmacao : "";?></span>
+            <input type="password" class="form-control" id="confirmacao" name="confirmacao" maxlength="20" placeholder="Repita sua senha aqui" value="<?php echo($cliente->getConfirmacao()) ?>"  required />
           </div>
         </div>
         <div class="row">
   		  <div class="col-md-4 form-group">
             <label class="form-label-required" for="cpf">CPF:</label>
-            <input type="text" class="form-control" name="cpf" id="cpf" maxlength="14" value="<?php echo(isset($cpf) ? $cpf : '') ?>" required />
-			<span id="av-cpf" class="erro-form"><?php echo isset($erroCpf) ? $erroCpf : "";?></span>
+            <input type="text" class="form-control" name="cpf" id="cpf" maxlength="14" value="<?php echo($cliente->getCpf()) ?>" required />
           </div>
           <div class="col-md-4 form-group">
             <label class="form-label" for="dataNascimento">Data de nascimento:</label>
-            <input type="date" class="form-control" name="dataNascimento" id="dataNascimento" value="<?php echo(isset($dataNascimento) ? $dataNascimento : '') ?>" placeholder="dd/MM/yyyy" required />
-						<span class="erro-form"><?php echo isset($erroDataNascimento) ? $erroDataNascimento : "";?></span>
+            <input type="date" class="form-control" name="dataNascimento" id="dataNascimento" value="<?php echo($cliente->getDataNascimento()) ?>" placeholder="dd/MM/yyyy" required />
           </div>
           <div class="col-md-4 form-group">
             <p class="form-label" for="sexo">Sexo:</p>
 						<?php $sexo = isset($sexo) ? $sexo : 'M'; ?>
-						<label for="sexoMasculino"><input type="radio" name="sexo" id="sexoMasculino" value="M" <?php echo $sexo === 'M' ? 'checked' : '';  ?> />Masculino</label>
-						<label for="sexoFeminino"><input type="radio" name="sexo" id="sexoFeminino" value="F" <?php echo $sexo === 'F' ? 'checked' : '';  ?>/>Feminino</label>
+						<label for="sexoMasculino"><input type="radio" name="sexo" id="sexoMasculino" value="M" <?php echo $cliente->getSexo() === 'M' ? 'checked' : '';  ?> />Masculino</label>
+						<label for="sexoFeminino"><input type="radio" name="sexo" id="sexoFeminino" value="F" <?php echo $cliente->getSexo() === 'F' ? 'checked' : '';  ?>/>Feminino</label>
 					</div>
         </div>
         <div class="row">
 		  <div class="col-md-4 form-group">
             <label class="form-label" for="celular">Celular:</label>
-            <input type="text" class="form-control" name="celular" id="celular" maxlength="14" value="<?php echo(isset($celular) ? $celular : '') ?>" />
-						<span class="erro-form"><?php echo isset($erroCelular) ? $erroCelular : ""; ?></span>
+            <input type="text" class="form-control" name="celular" id="celular" maxlength="14" value="<?php echo($cliente->getCelular()) ?>" />
           </div>
         </div>
         <div class="row">
   		  <div class="col-md-4 form-group">
             <label class="form-label" for="cep">CEP:</label>
-            <input type="text" class="form-control" name="cep" id="cep" maxlength="9" value="<?php echo(isset($cep) ? $cep : '') ?>" />
-						<span class="erro-form"><?php echo isset($erroCep) ? $erroCep : "";?></span>
+            <input type="text" class="form-control" name="cep" id="cep" maxlength="9" value="<?php echo($cliente->getCep()) ?>" />
           </div>
           <div class="col-md-8 form-group">
             <label class="form-label" for="endereco">Endereço:</label>
-            <input type="text" class="form-control" name="endereco" id="endereco" maxlength="50" value="<?php echo(isset($endereco) ? $endereco : '') ?>" />
+            <input type="text" class="form-control" name="endereco" id="endereco" maxlength="50" value="<?php echo($cliente->getEndereco()->getLogradouro()) ?>" />
           </div>
         </div>
         <div class="row">
   				<div class="col-md-2 form-group">
             <label class="form-label" for="numero">Número:</label>
-            <input type="text" class="form-control" name="numero" id="numero" maxlength="10" value="<?php echo(isset($numero) ? $numero : '') ?>" />
+            <input type="text" class="form-control" name="numero" id="numero" maxlength="10" value="<?php echo($cliente->getEndereco()->getNumero()) ?>" />
           </div>
           <div class="col-md-5 form-group">
             <label class="form-label" for="complemento">Complemento:</label>
-            <input type="text" class="form-control" name="complemento" maxlength="50" id="complemento" value="<?php echo(isset($complemento) ? $complemento : '') ?>" />
+            <input type="text" class="form-control" name="complemento" maxlength="50" id="complemento" value="<?php echo($cliente->getEndereco()->getComplemento()) ?>" />
           </div>
           <div class="col-md-5 form-group">
             <label class="form-label" for="bairro">Bairro:</label>
-            <input type="text" class="form-control" name="bairro" id="bairro" maxlength="50" value="<?php echo(isset($bairro) ? $bairro : '') ?>" />
+            <input type="text" class="form-control" name="bairro" id="bairro" maxlength="50" value="<?php echo($cliente->getEndereco()->getBairro()) ?>" />
           </div>
         </div>
         <div class="row">
 		  	<div class="col-md-8 form-group">
             <label class="form-label" for="cidade">Cidade:</label>
-            <input type="text" class="form-control" name="cidade" id="cidade" maxlength="50" value="<?php echo(isset($cidade) ? $cidade : '') ?>" />
+            <input type="text" class="form-control" name="cidade" id="cidade" maxlength="50" value="<?php echo($cliente->getEndereco()->getCidade()) ?>" />
           </div>
           <div class="col-md-4 form-group">
 						<?php $uf = isset($uf) ? $uf : 'X'; ?>
             <label class="form-label" for="uf">Estado:</label>
             <select class="form-control" name="uf" id="uf">
-							<option value="AC" <?php echo($uf === 'AC'  ? 'selected' : '') ?>>Acre</option>
-							<option value="AL" <?php echo($uf === 'AL'  ? 'selected' : '') ?>>Alagoas</option>
-							<option value="AP" <?php echo($uf === 'AP'  ? 'selected' : '') ?>>Amapá</option>
-							<option value="AM" <?php echo($uf === 'AM'  ? 'selected' : '') ?>>Amazonas</option>
-							<option value="BA" <?php echo($uf === 'BA'  ? 'selected' : '') ?>>Baia</option>
-							<option value="CE" <?php echo($uf === 'CE'  ? 'selected' : '') ?>>Ceará</option>
-							<option value="DF" <?php echo($uf === 'DF'  ? 'selected' : '') ?>>Distrito Federal</option>
-							<option value="ES" <?php echo($uf === 'ES'  ? 'selected' : '') ?>>Espirito Santo</option>
-							<option value="GO" <?php echo($uf === 'GO'  ? 'selected' : '') ?>>Goiás</option>
-							<option value="MA" <?php echo($uf === 'MA'  ? 'selected' : '') ?>>Maranhão</option>
-							<option value="MT" <?php echo($uf === 'MT'  ? 'selected' : '') ?>>Mato Grosso</option>
-							<option value="MS" <?php echo($uf === 'MS'  ? 'selected' : '') ?>>Mato Grosso do Sul</option>
-							<option value="MG" <?php echo($uf === 'MG'  ? 'selected' : '') ?>>Minas Gerais</option>
-							<option value="PA" <?php echo($uf === 'PA'  ? 'selected' : '') ?>>Pará</option>
-							<option value="PB" <?php echo($uf === 'PB'  ? 'selected' : '') ?>>Paraiba</option>
-							<option value="PR" <?php echo($uf === 'PR'  ? 'selected' : '') ?>>Paraná</option>
-							<option value="PE" <?php echo($uf === 'PE'  ? 'selected' : '') ?>>Pernambuco</option>
-							<option value="PI" <?php echo($uf === 'PI'  ? 'selected' : '') ?>>Piauí</option>
-							<option value="RJ" <?php echo($uf === 'RJ'  ? 'selected' : '') ?>>Rio de Janeiro</option>
-							<option value="RN" <?php echo($uf === 'RN'  ? 'selected' : '') ?>>Rio Grande do Norte</option>
-							<option value="RS" <?php echo($uf === 'RS'  ? 'selected' : '') ?>>Rio Grande do Sul</option>
-							<option value="RO" <?php echo($uf === 'RO'  ? 'selected' : '') ?>>Rondônia</option>
-							<option value="RR" <?php echo($uf === 'RR'  ? 'selected' : '') ?>>Roraima</option>
-							<option value="SC" <?php echo($uf === 'SC'  ? 'selected' : '') ?>>Santa Catarina</option>
-							<option value="SE" <?php echo($uf === 'SE'  ? 'selected' : '') ?>>Sergipe</option>
-							<option value="SP" <?php echo(($uf === 'SP' || $uf === 'X')  ? 'selected' : '') ?>>São Paulo</option>
-							<option value="TO" <?php echo($uf === 'TO'  ? 'selected' : '') ?>>Tocantins</option>
+							<option value="AL" <?php echo($cliente->getEndereco()->getUf() === 'AL'  ? 'selected' : '') ?>>Alagoas</option>
+							<option value="AC" <?php echo($cliente->getEndereco()->getUf() === 'AC'  ? 'selected' : '') ?>>Acre</option>
+							<option value="AP" <?php echo($cliente->getEndereco()->getUf() === 'AP'  ? 'selected' : '') ?>>Amapá</option>
+							<option value="AM" <?php echo($cliente->getEndereco()->getUf() === 'AM'  ? 'selected' : '') ?>>Amazonas</option>
+							<option value="BA" <?php echo($cliente->getEndereco()->getUf() === 'BA'  ? 'selected' : '') ?>>Baia</option>
+							<option value="CE" <?php echo($cliente->getEndereco()->getUf() === 'CE'  ? 'selected' : '') ?>>Ceará</option>
+							<option value="DF" <?php echo($cliente->getEndereco()->getUf() === 'DF'  ? 'selected' : '') ?>>Distrito Federal</option>
+							<option value="ES" <?php echo($cliente->getEndereco()->getUf() === 'ES'  ? 'selected' : '') ?>>Espirito Santo</option>
+							<option value="GO" <?php echo($cliente->getEndereco()->getUf() === 'GO'  ? 'selected' : '') ?>>Goiás</option>
+							<option value="MA" <?php echo($cliente->getEndereco()->getUf() === 'MA'  ? 'selected' : '') ?>>Maranhão</option>
+							<option value="MT" <?php echo($cliente->getEndereco()->getUf() === 'MT'  ? 'selected' : '') ?>>Mato Grosso</option>
+							<option value="MS" <?php echo($cliente->getEndereco()->getUf() === 'MS'  ? 'selected' : '') ?>>Mato Grosso do Sul</option>
+							<option value="MG" <?php echo($cliente->getEndereco()->getUf() === 'MG'  ? 'selected' : '') ?>>Minas Gerais</option>
+							<option value="PA" <?php echo($cliente->getEndereco()->getUf() === 'PA'  ? 'selected' : '') ?>>Pará</option>
+							<option value="PB" <?php echo($cliente->getEndereco()->getUf() === 'PB'  ? 'selected' : '') ?>>Paraiba</option>
+							<option value="PR" <?php echo($cliente->getEndereco()->getUf() === 'PR'  ? 'selected' : '') ?>>Paraná</option>
+							<option value="PE" <?php echo($cliente->getEndereco()->getUf() === 'PE'  ? 'selected' : '') ?>>Pernambuco</option>
+							<option value="PI" <?php echo($cliente->getEndereco()->getUf() === 'PI'  ? 'selected' : '') ?>>Piauí</option>
+							<option value="RJ" <?php echo($cliente->getEndereco()->getUf() === 'RJ'  ? 'selected' : '') ?>>Rio de Janeiro</option>
+							<option value="RN" <?php echo($cliente->getEndereco()->getUf() === 'RN'  ? 'selected' : '') ?>>Rio Grande do Norte</option>
+							<option value="RS" <?php echo($cliente->getEndereco()->getUf() === 'RS'  ? 'selected' : '') ?>>Rio Grande do Sul</option>
+							<option value="RO" <?php echo($cliente->getEndereco()->getUf() === 'RO'  ? 'selected' : '') ?>>Rondônia</option>
+							<option value="RR" <?php echo($cliente->getEndereco()->getUf() === 'RR'  ? 'selected' : '') ?>>Roraima</option>
+							<option value="SC" <?php echo($cliente->getEndereco()->getUf() === 'SC'  ? 'selected' : '') ?>>Santa Catarina</option>
+							<option value="SE" <?php echo($cliente->getEndereco()->getUf() === 'SE'  ? 'selected' : '') ?>>Sergipe</option>
+							<option value="SP" <?php echo(($cliente->getEndereco()->getUf() === 'SP' || $uf === 'X')  ? 'selected' : '') ?>>São Paulo</option>
+							<option value="TO" <?php echo($cliente->getEndereco()->getUf() === 'TO'  ? 'selected' : '') ?>>Tocantins</option>
 						</select>
           </div>
         </div>
@@ -328,12 +323,11 @@ try {
           <div class="col-md-6 form-group">
 						<label class="form-label-required" for="foto">Foto:</label>
 						<input type="file" class="form-control" name="foto" id="foto" />
-						<span class="erro-form"><?php echo isset($erroArquivo) ? $erroArquivo : "";?></span>
           </div>
           <div class="col-md-6 form-group">
             <br/>
             <label class="form-label" for="autorizacaoContato">
-							<input type="checkbox" name="autorizacaoContato" id="autorizacaoContato" <?php echo(isset($autorizacaoContato) ? 'checked' : '') ?> />
+							<input type="checkbox" name="autorizacaoContato" id="autorizacaoContato" <?php echo($cliente->getAutorizacaoContato()) ?> />
 							<span>Autorizo o envio de noticias e promoções da Livraria Global em meu e-mail</span>
 						</label>
           </div>
