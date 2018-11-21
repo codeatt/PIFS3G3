@@ -25,3 +25,6 @@ Route::get('/livros/adicionar','LivroController@inserir');
 Route::post('/livros/adicionar','LivroController@gravarLivro');
 Route::get('/livros/editar/{id}','LivroController@editarLivro');
 Route::post('/livros/editar/{id}','LivroController@atualizarLivro');
+
+Route::get('/livros/excluir/{id}','LivroController@excluir');
+Route::delete('/livros/excluir/{id}','LivroController@excluirLivros');

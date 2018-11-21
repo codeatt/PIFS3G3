@@ -53,4 +53,14 @@ class LivroController extends Controller
       return redirect('/livros');
     }
 
+    public function excluir ($id) {
+      $livro=Livro::find($id);
+      return view('livroExcluir')->with('livro',$livro);
+    }
+
+    public function excluirLivros(Request $request, $id) {
+      $livro=Livro::find($id);
+      $livro->delete();
+      return redirect('/livros');
+    }
 }
