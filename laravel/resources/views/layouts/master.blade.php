@@ -7,7 +7,7 @@
    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="css/styles.css">
+  <link rel="stylesheet" type="text/css" href="/css/styles.css">
   <title>Livraria Global - FAQ</title>
 </head>
 <body>
@@ -19,7 +19,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-      <a class="navbar-brand" href="#"><img src="foto/logo.png" alt="logo" id="logo"></a>
+      <a class="navbar-brand" href="/home"><img src="/foto/logo.png" alt="logo" id="logo"></a>
     </div>
 
     <div class=" col-md-4 col-xs-12"> <!--Boostrap Responsive 1.2-->
