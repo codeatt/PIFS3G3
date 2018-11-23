@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Livro;
+use App\Editora;
+use App\Categorias;
 
 class LivroController extends Controller
 {
@@ -13,25 +15,39 @@ class LivroController extends Controller
     }
 
     public function inserir(){
-      return view('adicionarLivro');
+      $editoras = Editora::all();
+      $categorias = Categorias::all();
+      return view('adicionarLivro')->with('editoras',$editoras)->with('categorias', $categorias);
     }
 
     public function gravarLivro(Request $request){
 
+      $filename = 'default.jpg';
+
+      if($request->hasfile('foto-livro')){
+        $file = $request->file('foto-livro');
+        $extension = $file->getClientOriginalExtension(); // getting image extension
+        $filename =time().'.'.$extension;
+        $file->move('/imagens/livros/', $filename);
+      }
+
       $livros = Livro::create([
-        'Titulo' => $request->input('Titulo'),
-        'Autor' => $request->input('Autor'),
-        'Preco' => $request->input('Preco'),
+        'titulo' => $request->input('titulo'),
+        'autor' => $request->input('autor'),
+        'preco' => $request->input('preco'),
         'QtdEstoque' => $request->input('QtdEstoque'),
-        'Edicao' => $request->input('Edicao'),
-        'Ativo'=> $request->input('Ativo'),
-        'EditoraId'=>$request->input('EditoraId'),
-        'CategoriaId' => $request->input('CategoriaId')
+        'edicao' => $request->input('edicao'),
+        'ativo'=> $request->input('ativo'),
+        'fk_editora_id'=>$request->input('fk_editora_id'),
+        'fk_categoria_id' => $request->input('fk_categoria_id'),
+        'imagem' => $filename
       ]);
       $livros->save();
 
+
       return redirect('/livros');
     }
+
     public function editarLivro ($id){
         $livro = Livro::find($id);
         return view('editarLivro')->with('resultado', $livro);
@@ -39,14 +55,14 @@ class LivroController extends Controller
 
     public function atualizarLivro(Request $request, $id) {
       $livro = Livro::find($id);
-      $livro->Titulo = $request->input('Titulo');
-      $livro->Autor = $request->input('Autor');
-      $livro->Preco = $request->input('Preco');
+      $livro->titulo = $request->input('titulo');
+      $livro->autor = $request->input('autor');
+      $livro->preco = $request->input('preco');
       $livro->QtdEstoque = $request->input('QtdEstoque');
-      $livro->Edicao = $request->input('Edicao');
-      $livro->Ativo = $request->input('Ativo');
-      $livro->EditoraId=$request->input('EditoraId');
-      $livro->CategoriaId = $request->input('CategoriaId');
+      $livro->edicao = $request->input('edicao');
+      $livro->ativo = $request->input('ativo');
+      $livro->fk_editora_id=$request->input('fk_editora_id');
+      $livro->fk_categoria_id = $request->input('fk_categoria_id');
 
       $livro->save();
 

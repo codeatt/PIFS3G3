@@ -46,8 +46,33 @@
         <ul class="nav navbar-nav">
           <li class="active"><a href="/home">Início</a></li>
           <li><a href="/faq">FAQ</a></li>
-          <li><a href="/cadastro"><span class="glyphicon glyphicon-user"></span> Inscreva-se</a></li>
-          <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          @guest
+              <li class="nav-item">
+                  <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+              </li>
+              <li class="nav-item">
+                  @if (Route::has('register'))
+                      <a class="nav-link" href="{{ route('register') }}">Cadastro</a>
+                  @endif
+              </li>
+          @else
+              <li class="nav-item dropdown">
+                  <a class="nav-link">
+                      {{ Auth::user()->name }}
+                  </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ route('logout') }}"
+                   onclick="event.preventDefault();
+                                 document.getElementById('logout-form').submit();" title="Sair">
+                    <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+              </li>
+          @endguest
         </ul>
       </div>
     </div>

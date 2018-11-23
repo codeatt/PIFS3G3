@@ -5,7 +5,7 @@
     <div class="container cadastro-main-form">
     <center><h1>Cadastro</h1></center>
 
-    <form id="formCadastro" name="formCadastro" action="/cadastro" method="post" enctype="multipart/form-data" autocomplete="off" onsubmit="return validarDados();">
+    <form id="formCadastro" name="formCadastro" action="/cadastro" method="post" enctype="multipart/form-data">
       {{ csrf_field() }}
 
         <div class="row">
@@ -25,7 +25,7 @@
         <div class="row">
           <div class="col-md-4 form-group">
               <label class="form-label" for="dataNascimento">Data de nascimento</label>
-              <input type="date" class="form-control" name="dataNascimento" id="data_de_nascimento" placeholder="dd/MM/yyyy">
+              <input type="date" class="form-control" name="data_de_nascimento" id="data_de_nascimento" placeholder="dd/MM/yyyy">
           </div>
 
             <div class="col-md-4 form-group">

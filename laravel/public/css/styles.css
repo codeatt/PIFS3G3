@@ -61,7 +61,7 @@ ul, li, a {
 }
 
 #carouselcolor{
-  color: gold;
+  color: white;
   /* font-family: 'Itim', cursive; */
   /* -webkit-text-stroke-width: 1px; /* largura da borda */
     /* -webkit-text-stroke-color: white; /* cor da borda */
@@ -115,7 +115,7 @@ ul, li, a {
 
 .btn-primary:hover {
     color: #fff;
-    background-color: black;
+    background-color: brown;
     border-color: black;
 }
 
@@ -132,6 +132,7 @@ a:focus, a:hover {
     color: red;
     font-weight: bold;
     font-size: 14px;
+
 }
 
 .form-label {
@@ -146,9 +147,9 @@ a:focus, a:hover {
 }
 h1 {
   color: purple;
-  font-size: 40px;
+  font-size: 50px;
 }
 body {
-  background-color: gray;
+  background-color: lightgray;
 
 }
