@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Livro;
-use App\Editora;
-use App\Categorias;
+use App\editora;
+use App\categorias;
 
 class LivroController extends Controller
 {
@@ -14,8 +14,15 @@ class LivroController extends Controller
       return view('listaLivro')->with('lista', $livros);
     }
 
+    public function detalhe($id) {
+      $livro = Livro::find($id);
+      $editora = editora::find($livro->EditoraId);
+      $categoria = categorias::find($livro->CategoriaId);
+      return view('detalheLivro')->with('livro', $livro)->with('editoraNome',$editora->nome)->with('categoriaNome',$categoria->descricao);
+    }
+
     public function inserir(){
-      $editoras = Editora::all();
+      $editoras = editora::all();
       $categorias = Categorias::all();
       return view('adicionarLivro')->with('editoras',$editoras)->with('categorias', $categorias);
     }
@@ -64,12 +71,27 @@ class LivroController extends Controller
       $livro->QtdEstoque = $request->input('QtdEstoque');
       $livro->edicao = $request->input('edicao');
       $livro->ativo = $request->input('ativo');
-      $livro->fk_editora_id=$request->input('fk_editora_id');
-      $livro->fk_categoria_id = $request->input('fk_categoria_id');
+      $livro->EditoraId=$request->input('EditoraId');
+      $livro->CategoriaId = $request->input('CategoriaId');
+
+      if($request->hasFile('fotoUrl')){
+        $nameFile = 'N/A';
+        if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
+          // Define um aleatório para o arquivo baseado no timestamps atual
+          $name = uniqid(date('HisYmd'));
+          // Recupera a extensão do arquivo
+          $extension = $request->foto->extension();
+          // Define finalmente o nome
+          $nameFile = "L{$name}.{$extension}";
+          // Faz o upload:
+          $upload = $request->foto->storeAs('livros', $nameFile);
+        }
+        $livro->fotoUrl = $nameFile;
+      }
 
       $livro->save();
 
-      return redirect('/livros');
+      return redirect('/livros/lista');
     }
 
     public function excluir ($id) {

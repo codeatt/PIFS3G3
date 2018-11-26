@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class livro extends Model
 {
   protected $table = 'livro';
-  protected $primaryKey = 'LivroId';
-  protected $fillable = ['Titulo', 'Autor', 'Preco', 'QtdEstoque',
-'Edicao', 'Ativo', 'EditoraId', 'CategoriaId', 'fotoUrl'];
+  protected $primaryKey = 'livro_id';
+  protected $fillable = ['titulo', 'autor', 'preco', 'QtdEstoque',
+'edicao', 'ativo', 'EditoraId', 'CategoriaId', 'fotoUrl'];
   public $timestamps = false;
 }

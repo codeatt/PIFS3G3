@@ -27,7 +27,7 @@
   <select class="form-control" name="EditoraId" required>
     <option selected disabled value="">Selecione</option>
     @foreach($editoras as $editora)
-      <option value="{{$editora->EditoraId}}">{{$editora->Nome}}</option>
+      <option value="{{$editora->editora_id}}">{{$editora->nome}}</option>
     @endforeach
   </select>
   <br><br>
@@ -35,7 +35,7 @@
   <select class="form-control" name="CategoriaId" required>
     <option selected disabled value="">Selecione</option>
     @foreach ($categorias as $categoria)
-    <option value="{{$categoria->CategoriaId}}">{{$categoria->Descricao}}</option>
+    <option value="{{$categoria->categoria_id}}">{{$categoria->descricao}}</option>
     @endforeach
   </select>
   <br><br>
