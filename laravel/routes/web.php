@@ -21,7 +21,7 @@ Route::get('/cadastro', 'CadastroController@cadastro');
 Route::get('/login', 'LoginController@login');
 Route::post('/cadastro', 'CadastroController@cadastrar');
 
-Route::get('/livro', 'LivroController@lista');
+Route::get('/livros/lista', 'LivroController@lista');
 Route::get('/livros/adicionar','LivroController@inserir');
 Route::post('/livros/adicionar','LivroController@gravarLivro');
 

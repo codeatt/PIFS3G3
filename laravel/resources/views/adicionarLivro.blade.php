@@ -7,41 +7,41 @@
   @csrf
 
   {{method_field('POST')}}
-  <label for="">Título </label><br>
-  <input class="form-control" type="text" name="titulo" value=""><br><br>
 
-  <label for="">Autor</label><br>
-  <input class="form-control" type="text" name="autor" value=""><br><br>
+  <label for="titulo">Título </label><br>
+  <input class="form-control" type="text" name="titulo" value="" required><br><br>
 
-  <label for="">Preco</label><br>
-  <input class="form-control" type="text" name="preco" value=""><br><br>
+  <label for="autor">Autor</label><br>
+  <input class="form-control" type="text" name="autor" value="" required><br><br>
 
-  <label for="">QtdEstoque</label><br>
-  <input class="form-control" type="text" name="QtdEstoque" value=""><br><br>
+  <label for="preco">Preco</label><br>
+  <input class="form-control" type="text" name="preco" value="" required><br><br>
 
-  <label for="">Edicao</label><br>
-  <input class="form-control" type="text" name="edicao" value=""><br><br>
+  <label for="QtdEstoque">QtdEstoque</label><br>
+  <input class="form-control" type="text" name="QtdEstoque" value="" required><br><br>
 
-  <label for="">Ativo</label><br>
-  <input type="text" name="ativo" value=""><br><br>
+  <label for="edicao">Edicao</label><br>
+  <input class="form-control" type="text" name="edicao" value="" required><br><br>
 
-  <label for="">EditoraId</label><br>
-  <select class="form-control" name="fk_editora_id">
+  <label for="EditoraId">Editora</label><br>
+  <select class="form-control" name="EditoraId" required>
+    <option selected disabled value="">Selecione</option>
     @foreach($editoras as $editora)
-      <option value="{{$editora->editora_id}}">{{$editora->nome}}</option>
+      <option value="{{$editora->EditoraId}}">{{$editora->Nome}}</option>
     @endforeach
   </select>
-
-  <label for="">CategoriaId</label><br>
-  <select class="form-control" name="fk_categoria_id">
+  <br><br>
+  <label for="CategoriaId">Categoria</label><br>
+  <select class="form-control" name="CategoriaId" required>
+    <option selected disabled value="">Selecione</option>
     @foreach ($categorias as $categoria)
-    <option value="{{$categoria->categoria_id}}">{{$categoria->descricao}}</option>
+    <option value="{{$categoria->CategoriaId}}">{{$categoria->Descricao}}</option>
     @endforeach
-
   </select>
-
-  <input type="file" name="foto-livro">
-
+  <br><br>
+  <label for="foto">Foto</label><br>
+  <input type="file" name="foto">
+  <br><br>
   <input type="submit" name="" value="Enviar">
 </form>
 

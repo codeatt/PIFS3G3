@@ -26,6 +26,18 @@ class CadastroController extends Controller
       //     'email' => 'required|unique:users|max:25',
       //     'password' => 'required|min:8|max:20'
       // ]);
+      $nameFile = 'N/A';
+      if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
+        // Define um aleatório para o arquivo baseado no timestamps atual
+        $name = uniqid(date('HisYmd'));
+        // Recupera a extensão do arquivo
+        $extension = $request->foto->extension();
+        // Define finalmente o nome
+        $nameFile = "U{$name}.{$extension}";
+        // Faz o upload:
+        $upload = $request->foto->storeAs('usuarios', $nameFile);
+      }
+
 
       $user = User::create([
         'name' => $request->input('name'),
@@ -35,7 +47,8 @@ class CadastroController extends Controller
         'sexo'=>$request->input('sexo'),
         'email'=>$request->input('email'),
         'telefone'=>$request->input('telefone'),
-        'password'=>$request->input('password')
+        'password'=>$request->input('password'),
+        'fotoUrl'=>$nameFile
       ]);
 
       $user->save();

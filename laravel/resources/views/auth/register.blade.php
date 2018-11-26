@@ -72,7 +72,7 @@
         <div class="row">
             <div class="col-md-6 form-group">
                 <label class="form-label-required" for="foto">Foto:</label>
-		              <input type="file" class="form-control" name="foto" id="foto" />
+		            <input type="file" class="form-control" name="foto" id="foto" />
             </div>
 
             @if (count($errors) > 0)

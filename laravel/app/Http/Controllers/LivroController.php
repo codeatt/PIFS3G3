@@ -11,7 +11,7 @@ class LivroController extends Controller
 {
     public function lista() {
       $livros = Livro::all();
-      return view('listaLivro')->with('listaLivros', $livros);
+      return view('listaLivro')->with('lista', $livros);
     }
 
     public function inserir(){
@@ -22,13 +22,16 @@ class LivroController extends Controller
 
     public function gravarLivro(Request $request){
 
-      $filename = 'default.jpg';
-
-      if($request->hasfile('foto-livro')){
-        $file = $request->file('foto-livro');
-        $extension = $file->getClientOriginalExtension(); // getting image extension
-        $filename =time().'.'.$extension;
-        $file->move('/imagens/livros/', $filename);
+      $nameFile = 'N/A';
+      if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
+        // Define um aleatório para o arquivo baseado no timestamps atual
+        $name = uniqid(date('HisYmd'));
+        // Recupera a extensão do arquivo
+        $extension = $request->foto->extension();
+        // Define finalmente o nome
+        $nameFile = "L{$name}.{$extension}";
+        // Faz o upload:
+        $upload = $request->foto->storeAs('livros', $nameFile);
       }
 
       $livros = Livro::create([
@@ -37,15 +40,15 @@ class LivroController extends Controller
         'preco' => $request->input('preco'),
         'QtdEstoque' => $request->input('QtdEstoque'),
         'edicao' => $request->input('edicao'),
-        'ativo'=> $request->input('ativo'),
-        'fk_editora_id'=>$request->input('fk_editora_id'),
-        'fk_categoria_id' => $request->input('fk_categoria_id'),
-        'imagem' => $filename
+        'ativo'=> true,
+        'EditoraId'=>$request->get('EditoraId'),
+        'CategoriaId' => $request->get('CategoriaId'),
+        'fotoUrl' => $nameFile
       ]);
       $livros->save();
 
 
-      return redirect('/livros');
+      return redirect('/livros/lista');
     }
 
     public function editarLivro ($id){
