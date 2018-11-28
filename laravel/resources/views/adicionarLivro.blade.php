@@ -38,6 +38,10 @@
     <option value="{{$categoria->categoria_id}}">{{$categoria->descricao}}</option>
     @endforeach
   </select>
+  <label for="sinopse">Sinopse</label><br>
+  <input class="form-control" type="text" name="sinopse" value=""><br><br>
+
+
   <br><br>
   <label for="foto">Foto</label><br>
   <input type="file" name="foto">

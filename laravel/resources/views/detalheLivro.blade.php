@@ -12,8 +12,14 @@
     <p>Autor: {{$livro->autor}}</p>
     <p>Editora: {{$editoraNome}}</p>
     <p>Categoria: {{$categoriaNome}}</p>
+
     <p class="preco">R$ {{$livro->preco}}</p>
     <button type="button" name="button" class="btn btn-primary">COMPRAR</button>
+    <br><br><h3>Sinopse</h3><br>
+    <div class="col-md-6">
+    <p> {{$livro->sinopse}} </p>
+    </div>
+
   </div>
 </div>
 @endsection

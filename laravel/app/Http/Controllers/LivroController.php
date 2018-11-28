@@ -50,7 +50,9 @@ class LivroController extends Controller
         'ativo'=> true,
         'EditoraId'=>$request->get('EditoraId'),
         'CategoriaId' => $request->get('CategoriaId'),
-        'fotoUrl' => $nameFile
+        'fotoUrl' => $nameFile,
+        'sinopse' =>$request->input('sinopse')
+
       ]);
       $livros->save();
 
@@ -73,6 +75,7 @@ class LivroController extends Controller
       $livro->ativo = $request->input('ativo');
       $livro->EditoraId=$request->input('EditoraId');
       $livro->CategoriaId = $request->input('CategoriaId');
+      $livro->sinopse = $request->input('sinopse');
 
       $nameFile = 'N/A';
       if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
