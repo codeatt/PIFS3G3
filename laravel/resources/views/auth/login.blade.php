@@ -6,9 +6,11 @@
       <h2 class="text-center">Faça seu Login</h2><br>
 
 @if ($errors->has('email'))
-    <span class="invalid-feedback" role="alert">
-        <strong>{{ $errors->first('email') }}</strong>
-    </span>
+    <div class="alert alert-danger ">
+      <span class="invalid-feedback" role="alert">
+          {{ $errors->first('email') }}
+      </span>
+    </div>
 @endif
 <br>
   @csrf

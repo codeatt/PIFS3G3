@@ -10,7 +10,7 @@ use App\categorias;
 class LivroController extends Controller
 {
     public function lista() {
-      $livros = Livro::all();
+      $livros = Livro::paginate(8);
       return view('listaLivro')->with('lista', $livros);
     }
 
@@ -74,19 +74,18 @@ class LivroController extends Controller
       $livro->EditoraId=$request->input('EditoraId');
       $livro->CategoriaId = $request->input('CategoriaId');
 
-      if($request->hasFile('fotoUrl')){
-        $nameFile = 'N/A';
-        if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
-          // Define um aleatório para o arquivo baseado no timestamps atual
-          $name = uniqid(date('HisYmd'));
-          // Recupera a extensão do arquivo
-          $extension = $request->foto->extension();
-          // Define finalmente o nome
-          $nameFile = "L{$name}.{$extension}";
-          // Faz o upload:
-          $upload = $request->foto->storeAs('livros', $nameFile);
-        }
-        $livro->fotoUrl = $nameFile;
+      $nameFile = 'N/A';
+      if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
+        // Define um aleatório para o arquivo baseado no timestamps atual
+        $name = uniqid(date('HisYmd'));
+        // Recupera a extensão do arquivo
+        $extension = $request->foto->extension();
+        // Define finalmente o nome
+        $nameFile = "L{$name}.{$extension}";
+        // Faz o upload:
+        $upload = $request->foto->storeAs('livros', $nameFile);
+
+        $livro->fotoUrl=$nameFile;
       }
 
       $livro->save();

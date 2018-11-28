@@ -3,22 +3,19 @@
 
 <section class="container-fluid cadastro-main">
     <div class="container cadastro-main-form">
-    <center><h1>Cadastro</h1></center>
+    <h1>Cadastro</h1>
 
     <form id="formCadastro" name="formCadastro" action="/cadastro" method="post" enctype="multipart/form-data">
       {{ csrf_field() }}
 
         <div class="row">
-          <div class="col-md-12 form-group">
+          <div class="col-md-6 form-group">
             <label class="form-label-required" for="nome">Nome</label>
-            <input type="text" class="form-control" name="name" id="name" maxlength="50" placeholder="Digite seu nome">
+            <input type="text" class="form-control" name="name" id="name" maxlength="50" placeholder="Digite seu nome" required>
           </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-12 form-group">
+          <div class="col-md-6 form-group">
             <label class="form-label-required" for="email">Sobrenome</label>
-            <input type="text" class="form-control" id="sobrenome" name="sobrenome" maxlength="30" placeholder="Ex.: email@dominio.com">
+            <input type="text" class="form-control" id="sobrenome" name="sobrenome" maxlength="30" placeholder="Ex.: email@dominio.com" required>
           </div>
         </div>
 
@@ -32,23 +29,18 @@
                 <label class="form-label-required" for="cpf">CPF</label>
                 <input type="text" class="form-control" name="cpf" id="cpf" maxlength="14" placeholder="Ex: 123.456.789-12">
             </div>
+      <div class="col-md-4 form-group">
+        <label class="form-label-required" for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="email" maxlength="30" placeholder="Ex.: email@dominio.com" required>
+      </div>
+    </div>
 
-        <div class="row">
-          <div class="col-md-12 form-group">
-            <label class="form-label-required" for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" maxlength="30" placeholder="Ex.: email@dominio.com">
-          </div>
-        </div>
-
-        <div class="row">
+    <div class="row">
         <div class="col-md-4 form-group">
             <p class="form-label" for="sexo">Sexo</p>
             <label for="sexoMasculino"><input type="radio" name="sexo" id="sexoMasculino" value="M" checked="" />Masculino</label>
             <label for="sexoFeminino"><input type="radio" name="sexo" id="sexoFeminino" value="F" />Feminino</label>
         </div>
-    </div>
-
-    <div class="row">
         <div class="col-md-4 form-group">
             <label class="form-label" for="celular">Telefone</label>
             <input type="text" class="form-control" name="telefone" id="telefone" maxlength="14" placeholder="Ex: (99) 99999-9999">
@@ -57,15 +49,14 @@
 
 
         <div class="row">
-          <div class="col-md-6 form-group">
+          <div class="col-md-4 form-group">
             <label class="form-label-required" for="senha">Senha</label>
-            <input type="password" class="form-control" id="password" name="password" maxlength=15 placeholder="Informe sua senha">
-            <label><input type="checkbox" id="mostrarSenha" name="mostrarSenha" onclick="exibirSenha();" />Exibir senha</label>
+            <input type="password" class="form-control" id="password" name="password" maxlength=15 placeholder="Informe sua senha" required>
           </div>
 
-          <div class="col-md-6 form-group">
+          <div class="col-md-4 form-group">
             <label class="form-label-required" for="confirmacao">Confirmar Senha</label>
-            <input type="password" class="form-control" id="confirma_senha" name="confirma_senha" maxlength="20" placeholder="Confirme sua senha">
+            <input type="password" class="form-control" id="confirma_senha" name="confirma_senha" maxlength="20" placeholder="Confirme sua senha" required>
           </div>
         </div>
 
@@ -87,7 +78,7 @@
 
 
 
-            <div class="col-md-6 form-group">
+            <div class="col-md-12 form-group">
                 <br>
                 <label class="form-label" for="autorizacaoContato">
                     <input type="checkbox" name="autorizacaoContato" id="autorizacaoContato">
@@ -98,7 +89,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <button id="cadastro-enviar" type="submit" class="btn btn-primary btn-block">Enviar</button>
+                <button id="cadastro-enviar" type="submit" class="btn btn-primary ">Enviar</button>
 		              <br>
             </div>
         </div>

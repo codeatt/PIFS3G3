@@ -7,6 +7,7 @@
 <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
 <li data-target="#myCarousel" data-slide-to="1"></li>
 <li data-target="#myCarousel" data-slide-to="2"></li>
+<li data-target="#myCarousel" data-slide-to="3"></li>
 </ol>
 
 <!-- Wrapper for slides -->
@@ -20,7 +21,7 @@
 </div>
 
 <div class="item">
-  <img src="imagens/f2.jpg" alt="Produto B" id="carousel">
+  <img src="imagens/carrosel-teste1.jpg" alt="Produto B" id="carousel">
   <div class="carousel-caption" id="carouselcolor">
     <h2>Livraria Global</h2>
     <p>---</p>
@@ -34,6 +35,16 @@
     <p>---</p>
   </div>
 </div>
+
+<div class="item">
+  <img src="imagens/palmeiras.jpg" alt="Produto B" id="carousel">
+  <div class="carousel-caption" id="carouselcolor">
+    <h2>Livraria Global</h2>
+    <p>---</p>
+  </div>
+</div>
+
+
 </div>
 
 <!-- Left and right controls -->
@@ -47,14 +58,20 @@
 </a>
 </div>
 
-@foreach ($lista as $livro)
-<div class="livro_item col-md-3">
-  <img src="{{ url("storage/livros/{$livro->fotoUrl}") }}" style="width: 50px; height: 50px;" class="img-responsive" alt="{{$livro->Titulo}}">
-  <h3> <a href="/livros/{{$livro->livro_id}}">{{$livro->titulo}}</a></h3>
-  <p>{{$livro->autor}}</p>
-  <p>Edição {{$livro->edicao}}</p>
-  <p class="preco">{{$livro->preco}}</p>
-  <a href="#">Comprar</a>
+<div class="container lista-livro">
+  <div class="col-xs-12">
+    <h1>NOVIDADES</h1>
+  </div>
+  @foreach ($lista as $livro)
+  <div class="livro-item col-md-3 col-sm-6 col-xs-12">
+    <div class="foto-livro" style="background-image: url('{{ url("storage/livros/{$livro->fotoUrl}") }}')" title="{{$livro->Titulo}}">
+    </div>
+    <h3> <a href="/livros/{{$livro->livro_id}}">{{$livro->titulo}}</a></h3>
+    <p>Autor: {{$livro->autor}}</p>
+    <p class="preco">R${{$livro->preco}}</p>
+    <a class="btn btn-primary" href="/livros/editar/{{$livro->livro_id}}">Editar</a>
+    <a class="btn btn-primary" href="/livros/excluir/{{$livro->livro_id}}">Excluir</a>
+  </div>
+  @endforeach
 </div>
-@endforeach
 @endsection
