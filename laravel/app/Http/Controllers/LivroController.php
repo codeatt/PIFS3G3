@@ -102,6 +102,6 @@ class LivroController extends Controller
     public function excluirLivros(Request $request, $id) {
       $livro=Livro::find($id);
       $livro->delete();
-      return redirect('/livros');
+      return redirect('/livros/lista');
     }
 }

@@ -12,6 +12,8 @@
     <p>{{$livro->autor}}</p>
     <p>Edição {{$livro->edicao}}</p>
     <p class="preco">{{$livro->preco}}</p>
+    <a href="/livros/editar/{{$livro->livro_id}">Editar</a>
+    <a href="/livros/excluir/{{$livro->livro_id}}">Excluir</a>
   </div>
   @endforeach
 </div>

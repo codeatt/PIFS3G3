@@ -13,7 +13,7 @@
                          @method('DELETE')
 
             <label>Nome da Categoria</label>
-            <input type="text" name="Titulo" value="{{$livro->Titulo}}" readonly='true'>
+            <input type="text" name="titulo" value="{{$livro->titulo}}" readonly='true'>
             <button type="submit" onclick="return confirm('Deseja mesmo excluir?')">Excluir</button>
            </form>
        </div>
