@@ -56,4 +56,12 @@ class CadastroController extends Controller
 
       return redirect('/login');
     }
+
+    public function listarPaises() {
+      $paises = [
+        "id" => "1", "name" => "Brasil"
+        "id" => "1", "name" => "Estados Unidos"
+      ];
+      return response()->json($paises,  200);
+    }
 }
