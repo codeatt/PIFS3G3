@@ -33,6 +33,9 @@
 
     <label for="">CategoriaId</label><br>
     <input class="form-control" type="text" name="CategoriaId" value="{{$resultado->CategoriaId}}"><br>
+
+    <label for="">Sinopse</label><br>
+    <input class="form-control" type="text" name="sinopse" value="{{$resultado->sinopse}}" maxlength="500"><br>
   </div>
   <div class="col-md-6">
     <label for="">Foto</label><br>

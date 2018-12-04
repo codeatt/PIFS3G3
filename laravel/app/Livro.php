@@ -9,6 +9,6 @@ class livro extends Model
   protected $table = 'livro';
   protected $primaryKey = 'livro_id';
   protected $fillable = ['titulo', 'autor', 'preco', 'QtdEstoque',
-'edicao', 'ativo', 'EditoraId', 'CategoriaId', 'fotoUrl'];
+'edicao', 'ativo', 'EditoraId', 'CategoriaId', 'fotoUrl','sinopse'];
   public $timestamps = false;
 }
