@@ -71,6 +71,7 @@
                 </form>
               </li>
           @endguest
+          <li><a href="" id="trocaTema" > <img src="/imagens/trocaCor.svg" width="20" alt=""> </a></li>
         </ul>
       </div>
     </div>
@@ -86,6 +87,6 @@
   </footer>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  
+   <script src="/js/master.js"></script>
 </body>
 </html>

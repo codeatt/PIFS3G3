@@ -271,3 +271,12 @@ footer p{
   color: red;
   font-weight: bold;
 }
+ #trocaCor img{
+   color:white;
+ }
+.tema1{
+  background-color:lightgreen;
+  }
+.tema1 .form-label {
+  color:gray;
+}

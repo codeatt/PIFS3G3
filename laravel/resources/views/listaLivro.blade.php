@@ -12,8 +12,8 @@
     <h3> <a href="/livros/{{$livro->livro_id}}">{{$livro->titulo}}</a></h3>
     <p>Autor: {{$livro->autor}}</p>
     <p class="preco">R${{$livro->preco}}</p>
-    <a class="btn btn-primary" href="/livros/editar/{{$livro->livro_id}}">Editar</a>
-    <a class="btn btn-primary" href="/livros/excluir/{{$livro->livro_id}}">Excluir</a>
+    <!-- <a class="btn btn-primary" href="/livros/editar/{{$livro->livro_id}}">Editar</a>
+    <a class="btn btn-primary" href="/livros/excluir/{{$livro->livro_id}}">Excluir</a> -->
   </div>
   @endforeach
 
