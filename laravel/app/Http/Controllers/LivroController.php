@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Livro;
 use App\editora;
 use App\categorias;
+use Auth;
 
 class LivroController extends Controller
 {
@@ -105,5 +106,13 @@ class LivroController extends Controller
       $livro=Livro::find($id);
       $livro->delete();
       return redirect('/livros/lista');
+    }
+    public function admin()
+    {
+      $user = auth()->user();
+      var_dump($user);
+      exit;
+      $livros = Livro::paginate(8);
+      return view('admin')->with('lista', $livros);
     }
 }
