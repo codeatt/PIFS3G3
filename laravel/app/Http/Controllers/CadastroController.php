@@ -26,42 +26,40 @@ class CadastroController extends Controller
       //     'email' => 'required|unique:users|max:25',
       //     'password' => 'required|min:8|max:20'
       // ]);
-      $nameFile = 'N/A';
-      if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
-        // Define um aleatório para o arquivo baseado no timestamps atual
-        $name = uniqid(date('HisYmd'));
-        // Recupera a extensão do arquivo
-        $extension = $request->foto->extension();
-        // Define finalmente o nome
-        $nameFile = "U{$name}.{$extension}";
-        // Faz o upload:
-        $upload = $request->foto->storeAs('usuarios', $nameFile);
+
+      $existe = User::where('email','=',$request->input('email'))->count();
+
+      if($existe == 0) {
+        $nameFile = 'N/A';
+        if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
+          // Define um aleatório para o arquivo baseado no timestamps atual
+          $name = uniqid(date('HisYmd'));
+          // Recupera a extensão do arquivo
+          $extension = $request->foto->extension();
+          // Define finalmente o nome
+          $nameFile = "U{$name}.{$extension}";
+          // Faz o upload:
+          $upload = $request->foto->storeAs('usuarios', $nameFile);
+        }
+
+        $user = User::create([
+          'name' => $request->input('name'),
+          'cpf' => $request->input('cpf'),
+          'data_de_nascimento' => $request->input('data_de_nascimento'),
+          'sobrenome'=>$request->input('sobrenome'),
+          'sexo'=>$request->input('sexo'),
+          'email'=>$request->input('email'),
+          'telefone'=>$request->input('telefone'),
+          'password'=>$request->input('password'),
+          'uf'=>$request->input('estado'),
+          'cidade'=>$request->input('cidade'),
+          'fotoUrl'=>$nameFile
+        ]);
+
+        $user->save();
       }
-
-
-      $user = User::create([
-        'name' => $request->input('name'),
-        'cpf' => $request->input('cpf'),
-        'data_de_nascimento' => $request->input('data_de_nascimento'),
-        'sobrenome'=>$request->input('sobrenome'),
-        'sexo'=>$request->input('sexo'),
-        'email'=>$request->input('email'),
-        'telefone'=>$request->input('telefone'),
-        'password'=>$request->input('password'),
-        'fotoUrl'=>$nameFile
-      ]);
-
-      $user->save();
-
 
       return redirect('/login');
     }
 
-    public function listarPaises() {
-      $paises = [
-        "id" => "1", "name" => "Brasil"
-        "id" => "1", "name" => "Estados Unidos"
-      ];
-      return response()->json($paises,  200);
-    }
 }

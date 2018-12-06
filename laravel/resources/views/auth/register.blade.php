@@ -15,7 +15,7 @@
           </div>
           <div class="col-md-6 form-group">
             <label class="form-label-required" for="sobrenome">Sobrenome</label>
-            <input type="text" class="form-control" id="sobrenome" name="sobrenome" maxlength="30" placeholder="Ex.: email@dominio.com" required>
+            <input type="text" class="form-control" id="sobrenome" name="sobrenome" maxlength="30" placeholder="Digite seu sobrenome" required>
           </div>
         </div>
 
