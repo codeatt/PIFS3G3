@@ -110,9 +110,10 @@ class LivroController extends Controller
     public function admin()
     {
       $user = auth()->user();
-      var_dump($user);
-      exit;
-      $livros = Livro::paginate(8);
-      return view('admin')->with('lista', $livros);
+      if($user->admin){
+        $livros = Livro::paginate(8);
+        return view('admin')->with('lista', $livros);
+      }
+       return redirect('home');
     }
 }
