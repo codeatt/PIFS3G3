@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
 <h1> Adicionar Produtos </h1>
-<form method="post" enctype="multipart/form-data">
+<form id="formCadastro" method="post" enctype="multipart/form-data">
   @csrf
 
   {{method_field('POST')}}
@@ -46,8 +46,16 @@
   <label for="foto">Foto</label><br>
   <input type="file" name="foto">
   <br><br>
-  <input type="submit" name="" value="Enviar">
+  <button type="button" id="cadastro-enviar" class="btn btn-primary">Enviar</button>
+
+  <div id="divErro" class="alert alert-danger alert-dismissible fade in" style="display: none; margin: 25px 0px;">
+    <ul id="listaErro">
+    </ul>
+  </div>
+
 </form>
 
 </div>
+<script type="text/javascript" src="/js/livroCadastro.js"></script>
+
 @stop
