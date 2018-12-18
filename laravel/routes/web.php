@@ -32,6 +32,9 @@ Route::put('/livros/editar/{id}','LivroController@atualizarLivro');
 Route::get('/livros/excluir/{id}','LivroController@excluir');
 Route::delete('/livros/excluir/{id}','LivroController@excluirLivros');
 
+Route::get('/livros/pesquisar','LivroController@pesquisar');
+Route::post('/livros/pesquisar','LivroController@pesquisar');
+
 
 Route::get('/livros/{id}', 'LivroController@detalhe');
 

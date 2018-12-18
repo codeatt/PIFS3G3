@@ -8,6 +8,8 @@
 <li data-target="#myCarousel" data-slide-to="1"></li>
 <li data-target="#myCarousel" data-slide-to="2"></li>
 <li data-target="#myCarousel" data-slide-to="3"></li>
+
+
 </ol>
 
 <!-- Wrapper for slides -->
@@ -44,7 +46,6 @@
   </div>
 </div>
 
-
 </div>
 
 <!-- Left and right controls -->
@@ -69,7 +70,7 @@
     <h3> <a href="/livros/{{$livro->livro_id}}">{{$livro->titulo}}</a></h3>
     <p>Autor: {{$livro->autor}}</p>
     <p class="preco">R${{$livro->preco}}</p>
-    
+
   </div>
   @endforeach
 </div>

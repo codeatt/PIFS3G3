@@ -271,12 +271,66 @@ footer p{
   color: red;
   font-weight: bold;
 }
+
+p.text-center a{
+  font-size:25px;
+  font-weight:bold;
+  color:brown;
+}
+
  #trocaCor img{
    color:white;
  }
 .tema1{
-  background-color:lightgreen;
+  background-color:#E1F5A9;
   }
-.tema1 .form-label {
+/* .tema1 form-label {
   color:gray;
 }
+.tema1 footer{
+  background-color:yellow;
+  font-size:30px;
+  border:2px solid black;
+}
+.tema1 page-link{
+  background-color:black;
+}
+.tema1 h1 {
+  color:brown;
+  font-weight: bolder;
+  border:2px solid black;
+  text-align: center;
+  background-color:white;
+  border-style:groove;
+}
+.tema1 p{
+  color:darkblue;
+  font-weight:bold;
+  font-size:25px;
+}
+.tema1 h3 {
+  color:darkgray;
+  fonte-weight:bolder;
+}
+.tema1 .foto-livro{
+  border: 5px solid darkgreen;
+}
+.tema1 h4{
+  color:black;
+  font-size:30px;
+}
+.tema1 p.preco{
+  color:black;
+  font-size:30px;
+  font-stretch: extra-expanded;
+  border-style:double;
+  text-align: center;
+  background-color:white;
+}
+.tema1 div.login-form{
+  border:2px solid brown;
+}
+.tema1 p.text-center{
+  font-size:30px;
+  background-color:#FACC2E;
+} */

@@ -16,5 +16,8 @@ class HomeController extends Controller
     {
         $livros = Livro::take(4)->get();
         return view('home')->with('lista', $livros);
+
+        
     }
+
 }
